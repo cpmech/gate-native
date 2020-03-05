@@ -13,7 +13,7 @@ const tabIcon = (name: string) => ({ focused }) => (
 // HomeStack /////////////////////////////////////////////////////////////////
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  Home: HomeScreen as React.ComponentClass<any, any>,
 });
 
 HomeStack.navigationOptions = {
@@ -24,7 +24,7 @@ HomeStack.navigationOptions = {
 // AboutStack ////////////////////////////////////////////////////////////////
 
 const AboutStack = createStackNavigator({
-  About: AboutScreen,
+  About: AboutScreen as React.ComponentClass<any, any>,
 });
 
 AboutStack.navigationOptions = {
@@ -35,7 +35,7 @@ AboutStack.navigationOptions = {
 // OptionsStack //////////////////////////////////////////////////////////////
 
 const OptionsStack = createStackNavigator({
-  Options: OptionsScreen,
+  Options: OptionsScreen as React.ComponentClass<any, any>,
 });
 
 OptionsStack.navigationOptions = {
