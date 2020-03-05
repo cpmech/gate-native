@@ -6,6 +6,16 @@ export const colors = {
   darkGrey: '#343434',
 };
 
+export const fonts = {
+  button: 16,
+  header: 20,
+  subheader: 16,
+  facebook: 16,
+  orLine: 14,
+  smallFootnote: 14,
+  footnote: 16,
+};
+
 export const params = {
   vspace: {
     tiny: 5,
@@ -60,7 +70,7 @@ export const stylesFederatedButtons: IStyles = {
   },
 
   facebook: {
-    fontSize: 16,
+    fontSize: fonts.facebook,
     color: 'white',
     backgroundColor: '#4267b2',
     height: params.buttonHeight,
@@ -71,7 +81,7 @@ export const stylesFederatedButtons: IStyles = {
   },
 
   google: {
-    fontSize: 16,
+    fontSize: fonts.facebook,
     color: 'white',
     backgroundColor: '#aaaaaa',
     height: params.buttonHeight,
@@ -85,15 +95,17 @@ export const stylesFederatedButtons: IStyles = {
   orLineContainer: {
     width: 275,
     textAlign: 'center',
-    // borderBottom: 1px solid #bbb
+    borderBottomColor: '#bbbbbb',
+    borderBottomWidth: 1,
     color: '#828282',
     marginTop: params.orLineVertSpace,
   },
 
   orLine: {
     backgroundColor: '#ffffff',
-    // padding: 0 25px
-    fontSize: 14,
+    paddingVertical: 0,
+    paddingHorizontal: 25,
+    fontSize: fonts.orLine,
   },
 };
 
@@ -128,12 +140,12 @@ export const stylesSignUpForm: IStyles = {
   },
 
   header: {
-    fontSize: 20,
+    fontSize: fonts.header,
     color: '#484848',
   },
 
   subheader: {
-    fontSize: 16,
+    fontSize: fonts.subheader,
     color: '#484848',
   },
 
@@ -143,14 +155,27 @@ export const stylesSignUpForm: IStyles = {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    fontSize: 14,
+  },
+
+  smallFootnoteText: {
+    fontSize: fonts.smallFootnote,
     color: '#484848',
+  },
+
+  footnoteCenter: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 
   footnote: {
     flex: 1,
     flexDirection: 'column',
-    fontSize: 16,
+    alignItems: 'center',
+  },
+
+  footnoteText: {
+    fontSize: fonts.footnote,
     color: '#484848',
   },
 
