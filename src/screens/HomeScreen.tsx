@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationScreenProp } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
-import { withNTSV, Popup } from '@cpmech/rncomps';
+import { withNTSV, Popup, BaseButton } from '@cpmech/rncomps';
 import { GateSignUpView, useGateObserver } from '../components';
 import { LocalGateStore, GateStore, IStorage, gateLocale, t } from '@cpmech/gate';
 import { View, Text } from 'react-native';
@@ -56,8 +56,11 @@ const Comp: React.FC<IProps> = ({ navigation }) => {
       {!hasAccess && renderSignUpForm()}
       {ready && hasAccess && (
         <View>
-          <Text>WELCOME</Text>
-          <Text>You can now access this App</Text>
+          <Text style={{ fontSize: 20 }}>WELCOME</Text>
+          <Text style={{ fontSize: 16, marginTop: 20, marginBottom: 100 }}>
+            You can now access this App
+          </Text>
+          <BaseButton onPress={() => gate.signOut()} text="Sign out" />
         </View>
       )}
     </React.Fragment>
