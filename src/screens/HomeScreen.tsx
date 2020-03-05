@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavigationScreenProp } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
-import { withNTSV } from '@cpmech/rncomps';
+import { withNTSV, Popup } from '@cpmech/rncomps';
 import { GateSignUpView, useGateObserver } from '../components';
-import { LocalGateStore, GateStore, IStorage, gateLocale } from '@cpmech/gate';
+import { LocalGateStore, GateStore, IStorage, gateLocale, t } from '@cpmech/gate';
+import { View, Text } from 'react-native';
 
 gateLocale.setLocale('pt');
 
@@ -43,7 +44,24 @@ const Comp: React.FC<IProps> = ({ navigation }) => {
     return <GateSignUpView gate={gate as GateStore} />;
   };
 
-  return <GateSignUpView gate={gate as GateStore} />;
+  return (
+    <React.Fragment>
+      <Popup
+        visible={!ready}
+        title={t('initializing')}
+        isLoading={true}
+        colorSpinner="#ea8a2e"
+        colorTitleLoading="#ea8a2e"
+      />
+      {!hasAccess && renderSignUpForm()}
+      {ready && hasAccess && (
+        <View>
+          <Text>WELCOME</Text>
+          <Text>You can now access this App</Text>
+        </View>
+      )}
+    </React.Fragment>
+  );
 };
 
 export const HomeScreen = withNTSV(Comp, {

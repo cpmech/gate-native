@@ -196,6 +196,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             hlColor={hlColor}
             error={vErrors.code}
             factorFontsize2width={0.55}
+            keyboardType="numeric"
           />
           <FormErrorField error={vErrors.code} />
         </React.Fragment>
