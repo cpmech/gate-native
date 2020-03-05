@@ -141,35 +141,32 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     }
   };
 
-  const passwordIcon = (
+  const renderPasswordIcon = (
     <TouchableHighlight onPress={() => setShowPassword(!showPassword)}>
       {showPassword ? <BaseIcon name="eye" size={20} /> : <BaseIcon name="eye-off" size={20} />}
     </TouchableHighlight>
   );
 
-  const renderResetPasswordHeader = () => (
-    <View>
-      <View>{t('resetPassword')}</View>
-      <View>{resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}</View>
-    </View>
-  );
-
   return (
     <View>
-      <View>
-        {/* ----------------------- show header ------------------------ */}
+      {/* ----------------- header -- reset password ---------------- */}
+      {isResetPassword && (
         <View style={s.centered}>
-          <Text style={s.header}>
-            {isConfirm
-              ? t('confirmSignUp')
-              : isResetPassword
-              ? renderResetPasswordHeader()
-              : isSignIn
-              ? t('signIn')
-              : t('createAccount')}
+          <Text style={s.header}>{t('resetPassword')}</Text>
+          <Text style={s.subheader}>
+            {resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}
           </Text>
         </View>
-      </View>
+      )}
+
+      {/* --------------------- header -- normal -------------------- */}
+      {!isResetPassword && (
+        <View style={s.centered}>
+          <Text style={s.header}>
+            {isConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
+          </Text>
+        </View>
+      )}
 
       {/* ----------------------- input email ------------------------ */}
       {!resetPasswordStep2 && (
@@ -212,10 +209,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         <React.Fragment>
           <GateVSpaceSmall />
           <View style={s.smallFootnote}>
-            <Text>{t('lostCode')}&nbsp;</Text>
+            <Text style={s.smallFootnoteText}>{t('lostCode')}&nbsp;</Text>
             <BaseLink
               onPress={async () => await resendCodeInResetPwdView()}
               message={t('resendCode')}
+              fontSize={fonts.smallFootnote}
             />
           </View>
         </React.Fragment>
@@ -228,7 +226,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <InputTypeA
             label={resetPasswordStep2 ? t('newPassword') : t('password')}
             value={values.password}
-            suffix={passwordIcon}
+            suffix={renderPasswordIcon}
             onChangeText={v => setValue('password', v)}
             hlColor={hlColor}
             error={vErrors.password}
@@ -292,6 +290,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                   resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
                 }}
                 message={t('back')}
+                fontSize={fonts.button}
               />
             </View>
           </React.Fragment>
