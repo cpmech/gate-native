@@ -52,5 +52,5 @@ export const HomeTabs = createBottomTabNavigator({
 });
 
 (HomeTabs as any).navigationOptions = {
-  header: null,
+  headerShown: false,
 };
