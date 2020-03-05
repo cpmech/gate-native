@@ -21,7 +21,7 @@ interface IGateSignUpViewProps {
 
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
-  iniEmail = 'doriv4l+1@gmail.com',
+  iniEmail = '',
   buttonBgColor,
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
@@ -37,11 +37,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [touchedButtons, setTouchedButtons] = useState(false);
-  const [values, setValues] = useState<ISignUpValues>({
-    email: iniEmail,
-    password: '1carro$violeTA',
-    code: '',
-  });
+  const [values, setValues] = useState<ISignUpValues>({ email: iniEmail, password: '', code: '' });
   const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
 
   const isConfirm = wantToConfirm || needToConfirm;
