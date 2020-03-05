@@ -4,7 +4,9 @@ import { NavigationScreenProp } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import { withNTSV } from '@cpmech/rncomps';
 import { GateSignUpView } from '../components';
-import { LocalGateStore, GateStore, IStorage } from '@cpmech/gate';
+import { LocalGateStore, GateStore, IStorage, gateLocale } from '@cpmech/gate';
+
+gateLocale.setLocale('pt');
 
 const isLocal = false;
 

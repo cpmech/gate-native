@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors } from '@cpmech/gate';
+import { View, Text, TouchableHighlight } from 'react-native';
+import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from '@cpmech/gate';
+import { BaseIcon } from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
 import { colors } from '../components/gateParams';
 
@@ -110,9 +111,40 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     await gate.signUp(values.email, values.password);
   };
 
+  const resendCodeInResetPwdView = async () => await gate.forgotPasswordStep1(values.email);
+
+  const resendCodeInConfirmView = async () => {
+    setTouchedButtons(true);
+    if (validate({ password: true, code: true })) {
+      await gate.resendCode(values.email);
+    }
+  };
+
+  const setValue = <K extends keyof ISignUpValues>(key: K, value: string) => {
+    const newValues = { ...values, [key]: value.trim() };
+    setValues(newValues);
+    if (touchedButtons) {
+      const res = signUpValues2errors(newValues);
+      setVerrors({ ...vErrors, [key]: (res as any)[key] });
+    }
+  };
+
+  const passwordIcon = (
+    <TouchableHighlight onPress={() => setShowPassword(!showPassword)}>
+      {showPassword ? <BaseIcon name="eye" size={20} /> : <BaseIcon name="eye-off" size={20} />}
+    </TouchableHighlight>
+  );
+
+  const renderResetPasswordHeader = () => (
+    <View>
+      <View>{t('resetPassword')}</View>
+      <View>{resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}</View>
+    </View>
+  );
+
   return (
     <View>
-      <Text>HELLO</Text>
+      <Text>{t('resetPassword')}</Text>
     </View>
   );
 };
