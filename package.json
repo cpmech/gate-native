@@ -1,0 +1,45 @@
+{
+  "name": "gatenative",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "rn": "react-native",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@cpmech/rncomps": "^2.0.0",
+    "@react-native-community/masked-view": "^0.1.7",
+    "@types/react-native-vector-icons": "^6.4.5",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-gesture-handler": "^1.6.0",
+    "react-native-reanimated": "^1.7.0",
+    "react-native-safe-area-context": "^0.7.3",
+    "react-native-safe-area-view": "^1.0.0",
+    "react-native-screens": "^2.2.0",
+    "react-native-vector-icons": "^6.6.0",
+    "react-navigation": "^4.2.2",
+    "react-navigation-stack": "^2.2.3",
+    "react-navigation-tabs": "^2.8.2"
+  },
+  "devDependencies": {
+    "@react-native-community/eslint-config": "^0.0.7",
+    "@types/react": "^16.9.23",
+    "@types/react-native": "^0.61.19",
+    "@types/react-test-renderer": "^16.9.2",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "react-test-renderer": "16.9.0",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.2.0",
+    "typescript": "^3.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
