@@ -29,7 +29,7 @@ interface IGateSignUpViewProps {
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
-  buttonBgColor = '#5d5c61',
+  buttonBgColor,
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
@@ -325,7 +325,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           fontSize={fonts.button}
           width={175}
           height={params.buttonHeight}
-          // backgroundColor={buttonBgColor}
+          backgroundColor={buttonBgColor}
           text={
             isConfirm
               ? t('confirm').toUpperCase()
