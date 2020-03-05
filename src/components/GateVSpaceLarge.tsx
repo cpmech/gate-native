@@ -1,7 +1,7 @@
 import React from 'react';
+import { View } from 'react-native';
 import { params } from './gateStyles';
-import { BaseSpacer } from '@cpmech/rncomps';
 
 export const GateVSpaceLarge: React.FC = () => {
-  return <BaseSpacer space={params.vspace.large} />;
+  return <View style={{ height: params.vspace.large }}></View>;
 };

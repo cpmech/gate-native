@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from '@cpmech/gate';
-import { BaseButton, BaseIcon, BaseLink, InputTypeA, FormErrorField } from '@cpmech/rncomps';
+import {
+  BaseButton,
+  BaseIcon,
+  BaseLink,
+  InputTypeA,
+  FormErrorField,
+  IStyle,
+} from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
 import { params, colors, stylesSignUpForm } from './gateStyles';
 import { GateVSpace } from './GateVSpace';
@@ -43,6 +50,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   const isConfirm = wantToConfirm || needToConfirm;
   const isResetPassword = resetPasswordStep1 || resetPasswordStep2;
   const atNextPage = isConfirm || isResetPassword;
+
+  const styleRoot: IStyle = {};
 
   const clearErrors = () => {
     setTouchedButtons(false);
@@ -148,7 +157,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   );
 
   return (
-    <View>
+    <View style={styleRoot}>
       <View>
         {/* ----------------------- show header ------------------------ */}
         <View style={s.centered}>

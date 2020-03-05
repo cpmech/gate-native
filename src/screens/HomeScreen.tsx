@@ -35,11 +35,10 @@ interface IProps {
 }
 
 const Comp: React.FC<IProps> = ({ navigation }) => {
-  return (
-    <View>
-      <GateSignUpView gate={gate as GateStore} />
-    </View>
-  );
+  return <GateSignUpView gate={gate as GateStore} />;
 };
 
-export const HomeScreen = withNTSV(Comp, 'Home');
+export const HomeScreen = withNTSV(Comp, {
+  title: 'Home',
+  backgroundColor: '#ffffff',
+});
