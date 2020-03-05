@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from '@cpmech/gate';
-import { BaseIcon } from '@cpmech/rncomps';
+import { BaseButton, BaseIcon, BaseLink, InputTypeA, FormErrorField } from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
-import { colors } from '../components/gateParams';
+import { params, colors, stylesSignUpForm } from './gateStyles';
+import { GateVSpace } from './GateVSpace';
+import { GateVSpaceSmall } from './GateVSpaceSmall';
+import { GateVSpaceLarge } from './GateVSpaceLarge';
+
+const s = stylesSignUpForm;
 
 interface IGateSignUpViewProps {
   gate: GateStore;
@@ -144,7 +149,201 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
   return (
     <View>
-      <Text>{t('resetPassword')}</Text>
+      <View>
+        {/* ----------------------- show header ------------------------ */}
+        <View style={s.centered}>
+          <Text style={s.header}>
+            {isConfirm
+              ? t('confirmSignUp')
+              : isResetPassword
+              ? renderResetPasswordHeader()
+              : isSignIn
+              ? t('signIn')
+              : t('createAccount')}
+          </Text>
+        </View>
+      </View>
+
+      {/* ----------------------- input email ------------------------ */}
+      {!resetPasswordStep2 && (
+        <React.Fragment>
+          <GateVSpace />
+          <InputTypeA
+            label="Email"
+            value={values.email}
+            onChangeText={v => setValue('email', v)}
+            hlColor={hlColor}
+            error={vErrors.email}
+            autoCompleteType="email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <FormErrorField error={vErrors.email} />
+        </React.Fragment>
+      )}
+
+      {/* ----------------------- input code ------------------------- */}
+      {(isConfirm || resetPasswordStep2) && (
+        <React.Fragment>
+          <GateVSpace />
+          <InputTypeA
+            label={t('confirmationCode')}
+            value={values.code}
+            onChangeText={v => setValue('code', v)}
+            hlColor={hlColor}
+            error={vErrors.code}
+            factorFontsize2width={0.55}
+          />
+          <FormErrorField error={vErrors.code} />
+        </React.Fragment>
+      )}
+
+      {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
+      {resetPasswordStep2 && (
+        <React.Fragment>
+          <GateVSpaceSmall />
+          <View style={s.smallFootnote}>
+            <Text>{t('lostCode')}&nbsp;</Text>
+            <BaseLink
+              onPress={async () => await resendCodeInResetPwdView()}
+              message={t('resendCode')}
+            />
+          </View>
+        </React.Fragment>
+      )}
+
+      {/* --------------------- input password ----------------------- */}
+      {!(isConfirm || resetPasswordStep1) && (
+        <React.Fragment>
+          <GateVSpace />
+          <InputTypeA
+            label={resetPasswordStep2 ? t('newPassword') : t('password')}
+            value={values.password}
+            suffix={passwordIcon}
+            onChangeText={v => setValue('password', v)}
+            hlColor={hlColor}
+            error={vErrors.password}
+            autoCorrect={false}
+            textContentType="password"
+            secureTextEntry={!showPassword}
+          />
+          <FormErrorField error={vErrors.password} />
+        </React.Fragment>
+      )}
+
+      {/* ----------------- footnote: reset password ----------------- */}
+      {isSignIn && !atNextPage && (
+        <React.Fragment>
+          <GateVSpace />
+          <View style={s.smallFootnote}>
+            <Text>{t('forgotPassword')}&nbsp;</Text>
+            <BaseLink
+              onPress={() => {
+                clearErrors();
+                setResetPasswordStep1(true);
+              }}
+              message={t('resetPassword')}
+            />
+          </View>
+        </React.Fragment>
+      )}
+
+      {/* ----------------- footnote: resend code -------------------- */}
+      {isConfirm && (
+        <React.Fragment>
+          <GateVSpace />
+          <View style={s.smallFootnote}>
+            <Text>{t('lostCode')}&nbsp;</Text>
+            <BaseLink
+              onPress={async () => await resendCodeInConfirmView()}
+              message={t('resendCode')}
+            />
+          </View>
+        </React.Fragment>
+      )}
+
+      {resetPasswordStep1 && <GateVSpaceLarge />}
+
+      {/* ----------------------- submit button ---------------------- */}
+      <GateVSpaceLarge />
+      <View style={s.row}>
+        {/* ....... footnote: go back ....... */}
+        {atNextPage && (
+          <React.Fragment>
+            <GateVSpace />
+            <View style={s.footnote}>
+              <BaseLink
+                onPress={() => {
+                  clearErrors();
+                  wantToConfirm && setWantToConfirm(false);
+                  needToConfirm && gate.notify({ needToConfirm: false });
+                  resetPasswordStep1 && setResetPasswordStep1(false);
+                  resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
+                }}
+                message={t('back')}
+              />
+            </View>
+          </React.Fragment>
+        )}
+
+        {/* ....... footnote: signIn or signUp ....... */}
+        {!atNextPage && (
+          <React.Fragment>
+            <GateVSpace />
+            <View style={s.footnote}>
+              <Text>{isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;</Text>
+              <BaseLink
+                onPress={() => {
+                  clearErrors();
+                  setIsSignIn(!isSignIn);
+                }}
+                message={isSignIn ? t('signUp') : t('gotoSignIn')}
+              />
+            </View>
+          </React.Fragment>
+        )}
+
+        {/* ....... submit ....... */}
+        <GateVSpace />
+        <BaseButton
+          onPress={async () => await submit()}
+          borderRadius={300}
+          fontSize={14}
+          width={175}
+          height={params.buttonHeight}
+          // backgroundColor={buttonBgColor}
+          text={
+            isConfirm
+              ? t('confirm').toUpperCase()
+              : resetPasswordStep1
+              ? t('sendCode').toUpperCase()
+              : resetPasswordStep2
+              ? t('submit').toUpperCase()
+              : isSignIn
+              ? t('enter').toUpperCase()
+              : t('signUp').toUpperCase()
+          }
+        />
+      </View>
+
+      {/* ----------------- footnote: want to confirm ---------------- */}
+      {!atNextPage && (
+        <React.Fragment>
+          <GateVSpaceLarge />
+          <View style={s.smallFootnote}>
+            <Text>{t('wantToConfirm')}&nbsp;</Text>
+            <BaseLink
+              onPress={() => {
+                clearErrors();
+                setWantToConfirm(true);
+              }}
+              message={t('gotoConfirm')}
+            />
+          </View>
+        </React.Fragment>
+      )}
     </View>
   );
 };
