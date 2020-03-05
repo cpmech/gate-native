@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationScreenProp } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import { withNTSV } from '@cpmech/rncomps';
-import { GateSignUpView } from '../components';
+import { GateSignUpView, useGateObserver } from '../components';
 import { LocalGateStore, GateStore, IStorage, gateLocale } from '@cpmech/gate';
 
 gateLocale.setLocale('pt');
@@ -34,6 +34,15 @@ interface IProps {
 }
 
 const Comp: React.FC<IProps> = ({ navigation }) => {
+  const { ready, hasAccess } = useGateObserver(gate, '@cpmech/gate-native/Home');
+
+  const renderSignUpForm = () => {
+    if (isLocal) {
+      return null;
+    }
+    return <GateSignUpView gate={gate as GateStore} />;
+  };
+
   return <GateSignUpView gate={gate as GateStore} />;
 };
 
