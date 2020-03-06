@@ -832,10 +832,10 @@
   resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.8.0.tgz#88f53393026a1420a30e417f4ada11052013dfac"
   integrity sha512-CTifrO4ppPavOaYpvnA0q4JiZkfATk0CRffxzaVM8+nvhsjGjEbLfR1Mgbhrf5/3rmvM4UU4u/2oKFC57LKZqg==
 
-"@cpmech/gate@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/gate/-/gate-3.8.0.tgz#e16a2a636ad6785ae572757661a8c5d05b03293d"
-  integrity sha512-8ZEejSFd85C7aRmSr2kCRfUPmkSDNmGeZ33XqyRN/Mhxesi8XLDW6ZsdWjVSzWWq7JtA0ETWf2Kv65H6oXAtkA==
+"@cpmech/gate@^3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@cpmech/gate/-/gate-3.8.1.tgz#425e3dbcd9b0a6e35d516fdb74849947fd9288cc"
+  integrity sha512-UGgHjck6apiCJ2u19rVsnPBAX3V7W1K24DHriqTH9ygiTEE+2NmD8hd+6gV/o2NK/vFyUN3qBmDTLLgZYHjVRQ==
 
 "@cpmech/rncomps@^2.1.0":
   version "2.1.0"
