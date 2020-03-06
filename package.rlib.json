@@ -21,5 +21,9 @@
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "description": "React Native for my Gate SignUp Component",
-  "keywords": ["AWS Cognito", "Amplify", "Gate"]
+  "keywords": [
+    "AWS Cognito",
+    "Amplify",
+    "Gate"
+  ]
 }
