@@ -27,10 +27,14 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
 }) => {
-  const { error, needToConfirm, resetPasswordStep2, processing } = useGateObserver(
-    gate,
-    '@cpmech/gate-native/GateSignUpView',
-  );
+  const {
+    error,
+    needToConfirm,
+    resetPasswordStep2,
+    processing,
+    doneSendCode,
+    doneResetPassword,
+  } = useGateObserver(gate, '@cpmech/gate-native/GateSignUpView');
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [wantToConfirm, setWantToConfirm] = useState(false);
@@ -364,6 +368,20 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         onClose={() => gate.notify({ error: '' })}
         isError={true}
         message={error}
+      />
+
+      <Popup
+        visible={doneSendCode}
+        title={t('success')}
+        onClose={() => gate.notify({ doneSendCode: false })}
+        message={t('doneSendCode')}
+      />
+
+      <Popup
+        visible={doneResetPassword}
+        title={t('success')}
+        onClose={() => gate.notify({ doneResetPassword: false })}
+        message={t('doneResetPassword')}
       />
     </View>
   );

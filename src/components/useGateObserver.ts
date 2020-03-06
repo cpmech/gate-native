@@ -9,6 +9,8 @@ export const useGateObserver = (gate: GateStore | LocalGateStore, observerName: 
     resetPasswordStep2: false,
     ready: false,
     processing: false,
+    doneSendCode: false,
+    doneResetPassword: false,
     // user
     hasAccess: false,
     email: '',
@@ -25,6 +27,8 @@ export const useGateObserver = (gate: GateStore | LocalGateStore, observerName: 
         resetPasswordStep2: gate.flags.resetPasswordStep2,
         ready: gate.flags.ready,
         processing: gate.flags.processing,
+        doneSendCode: gate.flags.doneSendCode,
+        doneResetPassword: gate.flags.doneResetPassword,
         // user
         hasAccess: gate.user.hasAccess,
         email: gate.user.email,
