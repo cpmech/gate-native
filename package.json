@@ -19,7 +19,7 @@
   "types": "dist/esm/index.d.ts",
   "dependencies": {
     "@cpmech/basic": "^4.8.0",
-    "@cpmech/gate": "^3.9.0",
+    "@cpmech/gate": "^3.9.1",
     "@cpmech/rncomps": "^2.1.0",
     "@cpmech/util": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.7",
