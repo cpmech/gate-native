@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:textColor">#000000</item>
 
-        <!-- sets cursor color -->
+        <!-- sets cursor/caret color -->
         <item name="colorControlActivated">@android:color/white</item>
     </style>
 
