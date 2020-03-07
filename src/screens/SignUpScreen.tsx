@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { GateStore } from '@cpmech/gate';
 import { GateSignUpView } from '../components';
 import { gate } from '../service';
@@ -16,31 +16,37 @@ const s = StyleSheet.create({
     paddingRight: params.hpadding.normal,
     backgroundColor: colors.orange,
   },
+  wrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   content: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    // maxHeight: 500,
-    // maxWidth: 340,
+    maxHeight: 400,
+    maxWidth: 340,
+    backgroundColor: 'red',
   },
 });
 
 export const SignUpScreen: React.FC = () => (
-  <ScrollView style={{ backgroundColor: colors.orange }}>
-    <View style={s.root}>
+  <View style={s.root}>
+    <View style={s.wrapper}>
       <View style={s.content}>
         <GateSignUpView
           gate={gate as GateStore}
           // colorButtonBg="#ffffff"
           // colorButtonFg={colors.orange}
-          colorEye="#e5e5e5"
+          colorEye={colors.lightenOrange50pct}
           colorText="#ffffff"
           styleInput={{
             color: '#ffffff',
             bgColor: colors.orange,
             borderColor: colors.lightenOrange50pct,
             hlColor: '#ffffff',
-            mutedColor: '#e5e5e5',
+            mutedColor: colors.lightenOrange50pct,
           }}
           styleButton={{
             color: colors.orange,
@@ -50,8 +56,9 @@ export const SignUpScreen: React.FC = () => (
           styleLink={{
             color: 'yellow',
           }}
+          buttonMinWidth={180}
         />
       </View>
     </View>
-  </ScrollView>
+  </View>
 );

@@ -110,39 +110,35 @@ export const stylesFederatedButtons: IStyles = {
 };
 
 export const stylesSignUpForm: IStyles = {
-  centered: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
-
-  smallFootnote: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-
-  footnoteCenter: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-
-  footnote: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // centered: {
+  //   // flex: 1,
+  //   // flexDirection: 'column',
+  //   // alignItems: 'center',
+  //   // justifyContent: 'center',
+  // },
+  // row: {
+  //   // flex: 1,
+  //   // flexDirection: 'row',
+  //   // justifyContent: 'space-between',
+  //   // alignItems: 'center',
+  //   // width: '100%',
+  // },
+  // smallFootnote: {
+  //   // flex: 1,
+  //   // flexDirection: 'row',
+  //   // alignItems: 'center',
+  //   // justifyContent: 'center',
+  //   // width: '100%',
+  // },
+  // footnoteCenter: {
+  //   // flex: 1,
+  //   // flexDirection: 'column',
+  //   // alignItems: 'center',
+  // },
+  // footnote: {
+  //   // flex: 1,
+  //   // flexDirection: 'column',
+  //   // alignItems: 'center',
+  //   // justifyContent: 'center',
+  // },
 };

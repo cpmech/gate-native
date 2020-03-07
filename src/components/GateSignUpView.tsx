@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from '@cpmech/gate';
 import {
   IStyleButton,
@@ -14,12 +14,48 @@ import {
   IStyleLink,
 } from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
-import { fonts, params, stylesSignUpForm } from './gateStyles';
-import { GateVSpace } from './GateVSpace';
-import { GateVSpaceSmall } from './GateVSpaceSmall';
-import { GateVSpaceLarge } from './GateVSpaceLarge';
+import { fonts, params } from './gateStyles';
 
-const s = stylesSignUpForm;
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: 'cyan',
+    flex: 1,
+  },
+  inputContainer: {
+    backgroundColor: 'gray',
+    flex: 1,
+  },
+  footnote: {
+    backgroundColor: 'yellow',
+    flex: 1,
+  },
+  footnoteLeft: {
+    backgroundColor: '#cecece',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    backgroundColor: 'blue',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonLeft: {
+    backgroundColor: 'green',
+    flex: 1,
+  },
+  buttonRight: {
+    backgroundColor: 'magenta',
+    flex: 1,
+  },
+  wantToConfirm: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flex: 1,
+  },
+});
 
 interface IGateSignUpViewProps {
   gate: GateStore;
@@ -31,7 +67,7 @@ interface IGateSignUpViewProps {
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
   styleLink?: IStyleLink;
-  widthButton?: number;
+  buttonMinWidth?: number;
 }
 
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
@@ -44,7 +80,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   styleInput,
   styleButton,
   styleLink,
-  widthButton = 180,
+  buttonMinWidth,
 }) => {
   const {
     error,
@@ -176,7 +212,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     <React.Fragment>
       {/* ----------------- header -- reset password ---------------- */}
       {isResetPassword && (
-        <View style={s.centered}>
+        <View style={styles.header}>
           <Text style={txtHeader}>{t('resetPassword')}</Text>
           <Text style={txtSubheader}>
             {resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}
@@ -186,7 +222,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
       {/* --------------------- header -- normal -------------------- */}
       {!isResetPassword && (
-        <View style={s.centered}>
+        <View style={styles.header}>
           <Text style={txtHeader}>
             {isConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
           </Text>
@@ -195,8 +231,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
       {/* ----------------------- input email ------------------------ */}
       {!resetPasswordStep2 && (
-        <React.Fragment>
-          <GateVSpace />
+        <View style={styles.inputContainer}>
           <InputTypeA
             label="Email"
             value={values.email}
@@ -210,13 +245,12 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             {...styleInput}
           />
           <FormErrorField error={vErrors.email} />
-        </React.Fragment>
+        </View>
       )}
 
       {/* ----------------------- input code ------------------------- */}
       {(isConfirm || resetPasswordStep2) && (
-        <React.Fragment>
-          <GateVSpace />
+        <View style={styles.inputContainer}>
           <InputTypeA
             label={t('confirmationCode')}
             value={values.code}
@@ -227,29 +261,25 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             {...styleInput}
           />
           <FormErrorField error={vErrors.code} />
-        </React.Fragment>
+        </View>
       )}
 
       {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
       {resetPasswordStep2 && (
-        <React.Fragment>
-          <GateVSpaceSmall />
-          <View style={s.smallFootnote}>
-            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
-            <BaseLink
-              onPress={async () => await resendCodeInResetPwdView()}
-              message={t('resendCode')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
-            />
-          </View>
-        </React.Fragment>
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
+          <BaseLink
+            onPress={async () => await resendCodeInResetPwdView()}
+            message={t('resendCode')}
+            fontSize={fonts.smallFootnote}
+            {...styleLink}
+          />
+        </View>
       )}
 
       {/* --------------------- input password ----------------------- */}
       {!(isConfirm || resetPasswordStep1) && (
-        <React.Fragment>
-          <GateVSpace />
+        <View style={styles.inputContainer}>
           <InputTypeA
             label={resetPasswordStep2 ? t('newPassword') : t('password')}
             value={values.password}
@@ -262,53 +292,44 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             {...styleInput}
           />
           <FormErrorField error={vErrors.password} />
-        </React.Fragment>
+        </View>
       )}
 
       {/* ----------------- footnote: reset password ----------------- */}
       {isSignIn && !atNextPage && (
-        <React.Fragment>
-          <GateVSpace />
-          <View style={s.smallFootnote}>
-            <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
-            <BaseLink
-              onPress={() => {
-                clearErrors();
-                setResetPasswordStep1(true);
-              }}
-              message={t('resetPassword')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
-            />
-          </View>
-        </React.Fragment>
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
+          <BaseLink
+            onPress={() => {
+              clearErrors();
+              setResetPasswordStep1(true);
+            }}
+            message={t('resetPassword')}
+            fontSize={fonts.smallFootnote}
+            {...styleLink}
+          />
+        </View>
       )}
 
       {/* ----------------- footnote: resend code -------------------- */}
       {isConfirm && (
-        <React.Fragment>
-          <GateVSpace />
-          <View style={s.smallFootnote}>
-            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
-            <BaseLink
-              onPress={async () => await resendCodeInConfirmView()}
-              message={t('resendCode')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
-            />
-          </View>
-        </React.Fragment>
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
+          <BaseLink
+            onPress={async () => await resendCodeInConfirmView()}
+            message={t('resendCode')}
+            fontSize={fonts.smallFootnote}
+            {...styleLink}
+          />
+        </View>
       )}
 
-      {resetPasswordStep1 && <GateVSpaceLarge />}
-
       {/* ----------------------- submit button ---------------------- */}
-      <GateVSpaceLarge />
-      <View style={s.row}>
+      <View style={styles.buttonContainer}>
         {/* ....... footnote: go back ....... */}
         {atNextPage && (
-          <View style={{ width: '50%' }}>
-            <View style={s.footnote}>
+          <View style={styles.buttonLeft}>
+            <View style={styles.footnoteLeft}>
               <BaseLink
                 onPress={() => {
                   clearErrors();
@@ -327,8 +348,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
         {/* ....... footnote: signIn or signUp ....... */}
         {!atNextPage && (
-          <View style={{ width: '50%' }}>
-            <View style={s.footnoteCenter}>
+          <View style={styles.buttonLeft}>
+            <View style={styles.footnoteLeft}>
               <Text style={txtFootnote}>
                 {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
               </Text>
@@ -346,14 +367,12 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         )}
 
         {/* ....... submit ....... */}
-        <GateVSpace />
-        <View style={{ width: '50%' }}>
+        <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
           <BaseButton
             onPress={async () => await submit()}
             borderRadius={300}
             fontSize={fonts.button}
             height={params.buttonHeight}
-            width={widthButton}
             text={
               isConfirm
                 ? t('confirm').toUpperCase()
@@ -372,21 +391,18 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
       {/* ----------------- footnote: want to confirm ---------------- */}
       {!atNextPage && (
-        <React.Fragment>
-          <GateVSpaceLarge />
-          <View style={s.smallFootnote}>
-            <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
-            <BaseLink
-              onPress={() => {
-                clearErrors();
-                setWantToConfirm(true);
-              }}
-              message={t('gotoConfirm')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
-            />
-          </View>
-        </React.Fragment>
+        <View style={styles.wantToConfirm}>
+          <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
+          <BaseLink
+            onPress={() => {
+              clearErrors();
+              setWantToConfirm(true);
+            }}
+            message={t('gotoConfirm')}
+            fontSize={fonts.smallFootnote}
+            {...styleLink}
+          />
+        </View>
       )}
 
       <Popup
