@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from '@cpmech/gate';
-import { BaseButton, BaseIcon, BaseLink, FormErrorField, InputTypeA, Popup } from '@cpmech/rncomps';
+import {
+  IStyleButton,
+  IStyleTypeA,
+  BaseButton,
+  BaseIcon,
+  BaseLink,
+  FormErrorField,
+  InputTypeA,
+  Popup,
+  defaultStyleTypeA,
+  IStyleLink,
+} from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
-import { fonts, params, colors, stylesSignUpForm } from './gateStyles';
+import { fonts, params, stylesSignUpForm } from './gateStyles';
 import { GateVSpace } from './GateVSpace';
 import { GateVSpaceSmall } from './GateVSpaceSmall';
 import { GateVSpaceLarge } from './GateVSpaceLarge';
@@ -13,21 +24,27 @@ const s = stylesSignUpForm;
 interface IGateSignUpViewProps {
   gate: GateStore;
   iniEmail?: string;
-  colorButtonFg?: string;
-  colorButtonBg?: string;
+  colorText?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
-  hlColor?: string;
+  colorEye?: string;
+  styleInput?: IStyleTypeA;
+  styleButton?: IStyleButton;
+  styleLink?: IStyleLink;
+  widthButton?: number;
 }
 
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
-  colorButtonFg,
-  colorButtonBg,
+  colorText = '#484848',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
-  hlColor = colors.blue,
+  colorEye = defaultStyleTypeA.mutedColor,
+  styleInput,
+  styleButton,
+  styleLink,
+  widthButton = 180,
 }) => {
   const {
     error,
@@ -142,17 +159,26 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
   const renderPasswordIcon = (
     <TouchableHighlight onPress={() => setShowPassword(!showPassword)}>
-      {showPassword ? <BaseIcon name="eye" size={20} /> : <BaseIcon name="eye-off" size={20} />}
+      {showPassword ? (
+        <BaseIcon name="eye" size={20} color={colorEye} />
+      ) : (
+        <BaseIcon name="eye-off" size={20} color={colorEye} />
+      )}
     </TouchableHighlight>
   );
+
+  const txtHeader = { fontSize: fonts.header, color: colorText };
+  const txtSubheader = { fontSize: fonts.subheader, color: colorText };
+  const txtFootnote = { fontSize: fonts.footnote, color: colorText };
+  const txtSmallFootnote = { fontSize: fonts.smallFootnote, color: colorText };
 
   return (
     <React.Fragment>
       {/* ----------------- header -- reset password ---------------- */}
       {isResetPassword && (
         <View style={s.centered}>
-          <Text style={s.header}>{t('resetPassword')}</Text>
-          <Text style={s.subheader}>
+          <Text style={txtHeader}>{t('resetPassword')}</Text>
+          <Text style={txtSubheader}>
             {resetPasswordStep1 ? t('resetPassword1') : t('resetPassword2')}
           </Text>
         </View>
@@ -161,7 +187,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
       {/* --------------------- header -- normal -------------------- */}
       {!isResetPassword && (
         <View style={s.centered}>
-          <Text style={s.header}>
+          <Text style={txtHeader}>
             {isConfirm ? t('confirmSignUp') : isSignIn ? t('signIn') : t('createAccount')}
           </Text>
         </View>
@@ -175,13 +201,13 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             label="Email"
             value={values.email}
             onChangeText={v => setValue('email', v)}
-            hlColor={hlColor}
             error={vErrors.email}
             autoCompleteType="email"
             keyboardType="email-address"
             textContentType="emailAddress"
             autoCapitalize="none"
             autoCorrect={false}
+            {...styleInput}
           />
           <FormErrorField error={vErrors.email} />
         </React.Fragment>
@@ -195,10 +221,10 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             label={t('confirmationCode')}
             value={values.code}
             onChangeText={v => setValue('code', v)}
-            hlColor={hlColor}
             error={vErrors.code}
             factorFontsize2width={0.55}
             keyboardType="numeric"
+            {...styleInput}
           />
           <FormErrorField error={vErrors.code} />
         </React.Fragment>
@@ -209,11 +235,12 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         <React.Fragment>
           <GateVSpaceSmall />
           <View style={s.smallFootnote}>
-            <Text style={s.smallFootnoteText}>{t('lostCode')}&nbsp;</Text>
+            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
             <BaseLink
               onPress={async () => await resendCodeInResetPwdView()}
               message={t('resendCode')}
               fontSize={fonts.smallFootnote}
+              {...styleLink}
             />
           </View>
         </React.Fragment>
@@ -228,11 +255,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             value={values.password}
             suffix={renderPasswordIcon}
             onChangeText={v => setValue('password', v)}
-            hlColor={hlColor}
             error={vErrors.password}
             autoCorrect={false}
             textContentType="password"
             secureTextEntry={!showPassword}
+            {...styleInput}
           />
           <FormErrorField error={vErrors.password} />
         </React.Fragment>
@@ -243,7 +270,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         <React.Fragment>
           <GateVSpace />
           <View style={s.smallFootnote}>
-            <Text style={s.smallFootnoteText}>{t('forgotPassword')}&nbsp;</Text>
+            <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
             <BaseLink
               onPress={() => {
                 clearErrors();
@@ -251,6 +278,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
               }}
               message={t('resetPassword')}
               fontSize={fonts.smallFootnote}
+              {...styleLink}
             />
           </View>
         </React.Fragment>
@@ -261,11 +289,12 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         <React.Fragment>
           <GateVSpace />
           <View style={s.smallFootnote}>
-            <Text style={s.smallFootnoteText}>{t('lostCode')}&nbsp;</Text>
+            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
             <BaseLink
               onPress={async () => await resendCodeInConfirmView()}
               message={t('resendCode')}
               fontSize={fonts.smallFootnote}
+              {...styleLink}
             />
           </View>
         </React.Fragment>
@@ -290,6 +319,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 }}
                 message={t('back')}
                 fontSize={fonts.button}
+                {...styleLink}
               />
             </View>
           </View>
@@ -299,7 +329,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         {!atNextPage && (
           <View style={{ width: '50%' }}>
             <View style={s.footnoteCenter}>
-              <Text style={s.footnoteText}>
+              <Text style={txtFootnote}>
                 {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
               </Text>
               <BaseLink
@@ -309,6 +339,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 }}
                 message={isSignIn ? t('signUp') : t('gotoSignIn')}
                 fontSize={fonts.footnote}
+                {...styleLink}
               />
             </View>
           </View>
@@ -322,8 +353,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             borderRadius={300}
             fontSize={fonts.button}
             height={params.buttonHeight}
-            color={colorButtonFg}
-            backgroundColor={colorButtonBg}
+            width={widthButton}
             text={
               isConfirm
                 ? t('confirm').toUpperCase()
@@ -335,6 +365,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 ? t('enter').toUpperCase()
                 : t('signUp').toUpperCase()
             }
+            {...styleButton}
           />
         </View>
       </View>
@@ -344,7 +375,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         <React.Fragment>
           <GateVSpaceLarge />
           <View style={s.smallFootnote}>
-            <Text style={s.smallFootnoteText}>{t('wantToConfirm')}&nbsp;</Text>
+            <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
             <BaseLink
               onPress={() => {
                 clearErrors();
@@ -352,6 +383,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
               }}
               message={t('gotoConfirm')}
               fontSize={fonts.smallFootnote}
+              {...styleLink}
             />
           </View>
         </React.Fragment>

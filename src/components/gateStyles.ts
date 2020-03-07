@@ -125,27 +125,12 @@ export const stylesSignUpForm: IStyles = {
     width: '100%',
   },
 
-  header: {
-    fontSize: fonts.header,
-    color: '#484848',
-  },
-
-  subheader: {
-    fontSize: fonts.subheader,
-    color: '#484848',
-  },
-
   smallFootnote: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-  },
-
-  smallFootnoteText: {
-    fontSize: fonts.smallFootnote,
-    color: '#484848',
   },
 
   footnoteCenter: {
@@ -159,14 +144,5 @@ export const stylesSignUpForm: IStyles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  footnoteText: {
-    fontSize: fonts.footnote,
-    color: '#484848',
-  },
-
-  submitButton: {
-    width: 180,
   },
 };
