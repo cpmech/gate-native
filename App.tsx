@@ -3,17 +3,16 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { BaseSpinnerScreen } from '@cpmech/rncomps';
 import { useGateObserver } from './src/components';
-import { gate } from './src/service';
 import { NavMain, NavSignUp } from './src/navigation';
-
-const orange = '#ea8a2e';
+import { colors } from './src/styles';
+import { gate } from './src/service';
 
 export const App = () => {
   const { ready, hasAccess } = useGateObserver(gate, 'gatenative/App');
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={orange} barStyle="light-content" />
+      <StatusBar backgroundColor={colors.orange} barStyle="light-content" />
       {ready ? (
         // AWS Amplify has been initialized/configured
         hasAccess ? (
@@ -25,7 +24,7 @@ export const App = () => {
         )
       ) : (
         // still initializing...
-        <BaseSpinnerScreen darkColor={orange} />
+        <BaseSpinnerScreen darkColor={colors.orange} />
       )}
     </NavigationContainer>
   );
