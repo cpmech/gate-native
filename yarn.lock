@@ -827,27 +827,27 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cpmech/basic@^4.8.0":
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.8.0.tgz#88f53393026a1420a30e417f4ada11052013dfac"
-  integrity sha512-CTifrO4ppPavOaYpvnA0q4JiZkfATk0CRffxzaVM8+nvhsjGjEbLfR1Mgbhrf5/3rmvM4UU4u/2oKFC57LKZqg==
+"@cpmech/basic@^4.9.0":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/basic/-/basic-4.9.0.tgz#7bd59e5bffd5aef9e7ca92ce56d393459dd6bdb8"
+  integrity sha512-C2Xiw4pQaI5NO6JsWoZBcw6NOkewjKYKqmUAdU5cH6wL+DLF3w2RGeqedQKbk3C+A3hSC/fWjV0BuJ9/+yHhBg==
 
-"@cpmech/gate@^3.9.1":
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/@cpmech/gate/-/gate-3.9.1.tgz#cf8e573265bb7c542fc5116a3ef523a909b9327d"
-  integrity sha512-vf4TKzmi/OR0S1mjWOz4w/Dm+BGyiOHe27dIKIDx/yLKuQmoGt1FE7gYKNUUNGiGBmxXhym5Sm1a/v46UBwpZQ==
+"@cpmech/gate@^3.10.1":
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/@cpmech/gate/-/gate-3.10.1.tgz#d69cf5d3962730ae090c10b6ced55a4c69f5bf5d"
+  integrity sha512-3uoEhv5NW4+aiI9msOubGwdXLRFkgnKhQY5HGx0rj4bs1/QO0wQNDXPVRaNXyYvTFV6UB453VQ7Cz3HvY0c9jg==
 
-"@cpmech/rncomps@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/rncomps/-/rncomps-2.1.0.tgz#348079e5265fde6e57d4060965bca4165d8fc36c"
-  integrity sha512-1AI0AL8gVZT1BoKy9aQiM+7YQFtpVgowzYPkHCZUrioGm5zap+VxYjdkPiOKJf5tnb+ntM4tUkG+lPQueVUBnQ==
+"@cpmech/rncomps@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/rncomps/-/rncomps-2.2.0.tgz#509fa0505df3f318b2e4e4c6ac1e72fa646670e7"
+  integrity sha512-vuGQazrNPg3kdEslxgYVmZdEUFlkCTSMT+q1dwIHBMjEmYw/L00fnEz1STwRyq0o2dqH+G+0CDa494wRSUomag==
 
-"@cpmech/util@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/util/-/util-1.9.0.tgz#260b258318a5eb4a588bccad713ee2f50d96a9bb"
-  integrity sha512-M0w2GKDbIu0YPRxBqVgQMg9jsKnT2rgjEwx69YOn45KKOwxovdyhLdvuNhWMMAE9RAs0dpS8j4/gywRL/zVJPw==
+"@cpmech/util@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/util/-/util-1.10.0.tgz#62a75088592744b83a14af6faa5de389e59f0255"
+  integrity sha512-RArv0ENeDsgmdPlecwGUd+6HDCgy7/s/YvwIcwP4CUfXx1BEGi73kTUpx417ve3DOUY2Cx74Fc2PgC8nv2HTLQ==
   dependencies:
-    "@cpmech/basic" "^4.8.0"
+    "@cpmech/basic" "^4.9.0"
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
@@ -6324,10 +6324,10 @@ rollup-pluginutils@2.8.2, rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.0.0.tgz#0bd7a09bd7cdaa70a19ad5a356f2fab90fd2f401"
-  integrity sha512-tbvWownITR+0ebaX6iRr7IcLkziTCJacRpmWz03NIj3CZDmGlergYSwdG8wPx68LT0ms1YzqmbjUQHb6ut8pdw==
+rollup@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.0.2.tgz#0f63aa02bb106802a387380ee88b90b5c0449eaa"
+  integrity sha512-99VIc2DHm+HEhdla2ASH/LaomWS3v7RDANamD65w24TQTNVs3vtRM+oiFsP4KvUCri5+p5Q5xoXscUnIdE8gJA==
   optionalDependencies:
     fsevents "~2.1.2"
 
