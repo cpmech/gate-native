@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
   },
+  footnotes: {
+    flex: 0.7,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   footnote: {
     flex: 1,
     flexDirection: 'row',
@@ -64,6 +70,7 @@ interface IGateSignUpViewProps {
   colorTitleLoading?: string;
   colorSpinner?: string;
   colorEye?: string;
+  colorError?: string;
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
   styleLink?: IStyleLink;
@@ -77,6 +84,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
   colorEye = defaultStyleTypeA.mutedColor,
+  colorError,
   styleInput,
   styleButton,
   styleLink,
@@ -244,7 +252,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             autoCorrect={false}
             {...styleInput}
           />
-          <FormErrorField error={vErrors.email} />
+          <FormErrorField error={vErrors.email} color={colorError} />
         </View>
       )}
 
@@ -260,20 +268,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             keyboardType="numeric"
             {...styleInput}
           />
-          <FormErrorField error={vErrors.code} />
-        </View>
-      )}
-
-      {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
-      {resetPasswordStep2 && (
-        <View style={styles.footnote}>
-          <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
-          <BaseLink
-            onPress={async () => await resendCodeInResetPwdView()}
-            message={t('resendCode')}
-            fontSize={fonts.smallFootnote}
-            {...styleLink}
-          />
+          <FormErrorField error={vErrors.code} color={colorError} />
         </View>
       )}
 
@@ -291,36 +286,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             secureTextEntry={!showPassword}
             {...styleInput}
           />
-          <FormErrorField error={vErrors.password} />
-        </View>
-      )}
-
-      {/* ----------------- footnote: reset password ----------------- */}
-      {isSignIn && !atNextPage && (
-        <View style={styles.footnote}>
-          <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
-          <BaseLink
-            onPress={() => {
-              clearErrors();
-              setResetPasswordStep1(true);
-            }}
-            message={t('resetPassword')}
-            fontSize={fonts.smallFootnote}
-            {...styleLink}
-          />
-        </View>
-      )}
-
-      {/* ----------------- footnote: resend code -------------------- */}
-      {isConfirm && (
-        <View style={styles.footnote}>
-          <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
-          <BaseLink
-            onPress={async () => await resendCodeInConfirmView()}
-            message={t('resendCode')}
-            fontSize={fonts.smallFootnote}
-            {...styleLink}
-          />
+          <FormErrorField error={vErrors.password} color={colorError} />
         </View>
       )}
 
@@ -389,21 +355,65 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         </View>
       </View>
 
-      {/* ----------------- footnote: want to confirm ---------------- */}
-      {!atNextPage && (
-        <View style={styles.wantToConfirm}>
-          <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
-          <BaseLink
-            onPress={() => {
-              clearErrors();
-              setWantToConfirm(true);
-            }}
-            message={t('gotoConfirm')}
-            fontSize={fonts.smallFootnote}
-            {...styleLink}
-          />
-        </View>
-      )}
+      <View style={styles.footnotes}>
+        {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
+        {resetPasswordStep2 && (
+          <View style={styles.footnote}>
+            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
+            <BaseLink
+              onPress={async () => await resendCodeInResetPwdView()}
+              message={t('resendCode')}
+              fontSize={fonts.smallFootnote}
+              {...styleLink}
+            />
+          </View>
+        )}
+
+        {/* ----------------- footnote: reset password ----------------- */}
+        {isSignIn && !atNextPage && (
+          <View style={styles.footnote}>
+            <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
+            <BaseLink
+              onPress={() => {
+                clearErrors();
+                setResetPasswordStep1(true);
+              }}
+              message={t('resetPassword')}
+              fontSize={fonts.smallFootnote}
+              {...styleLink}
+            />
+          </View>
+        )}
+
+        {/* ----------------- footnote: resend code -------------------- */}
+        {isConfirm && (
+          <View style={styles.footnote}>
+            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
+            <BaseLink
+              onPress={async () => await resendCodeInConfirmView()}
+              message={t('resendCode')}
+              fontSize={fonts.smallFootnote}
+              {...styleLink}
+            />
+          </View>
+        )}
+
+        {/* ----------------- footnote: want to confirm ---------------- */}
+        {!atNextPage && (
+          <View style={styles.wantToConfirm}>
+            <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
+            <BaseLink
+              onPress={() => {
+                clearErrors();
+                setWantToConfirm(true);
+              }}
+              message={t('gotoConfirm')}
+              fontSize={fonts.smallFootnote}
+              {...styleLink}
+            />
+          </View>
+        )}
+      </View>
 
       <Popup
         visible={processing}

@@ -40,12 +40,14 @@ export const SignUpScreen: React.FC = () => (
           // colorButtonFg={colors.orange}
           colorEye={colors.lightenOrange50pct}
           colorText="#ffffff"
+          colorError="#ff1919"
           styleInput={{
             color: '#ffffff',
             bgColor: colors.orange,
             borderColor: colors.lightenOrange50pct,
             hlColor: '#ffffff',
             mutedColor: colors.lightenOrange50pct,
+            errorColor: '#ff1919',
           }}
           styleButton={{
             color: colors.orange,
@@ -54,6 +56,7 @@ export const SignUpScreen: React.FC = () => (
           }}
           styleLink={{
             color: 'yellow',
+            darkBackground: true,
           }}
         />
       </View>
