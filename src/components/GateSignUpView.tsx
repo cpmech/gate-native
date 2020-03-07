@@ -13,7 +13,8 @@ const s = stylesSignUpForm;
 interface IGateSignUpViewProps {
   gate: GateStore;
   iniEmail?: string;
-  buttonBgColor?: string;
+  colorButtonFg?: string;
+  colorButtonBg?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
   hlColor?: string;
@@ -22,7 +23,8 @@ interface IGateSignUpViewProps {
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
-  buttonBgColor,
+  colorButtonFg,
+  colorButtonBg,
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
   hlColor = colors.blue,
@@ -145,7 +147,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   );
 
   return (
-    <View>
+    <React.Fragment>
       {/* ----------------- header -- reset password ---------------- */}
       {isResetPassword && (
         <View style={s.centered}>
@@ -173,7 +175,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             label="Email"
             value={values.email}
             onChangeText={v => setValue('email', v)}
-            hlColor={hlColor}
+            // hlColor={hlColor}
+            darkMode={true}
             error={vErrors.email}
             autoCompleteType="email"
             keyboardType="email-address"
@@ -320,7 +323,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             borderRadius={300}
             fontSize={fonts.button}
             height={params.buttonHeight}
-            backgroundColor={buttonBgColor}
+            color={colorButtonFg}
+            backgroundColor={colorButtonBg}
             text={
               isConfirm
                 ? t('confirm').toUpperCase()
@@ -383,6 +387,6 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         onClose={() => gate.notify({ doneResetPassword: false })}
         message={t('doneResetPassword')}
       />
-    </View>
+    </React.Fragment>
   );
 };
