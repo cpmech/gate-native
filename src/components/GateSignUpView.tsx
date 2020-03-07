@@ -70,6 +70,7 @@ interface IGateSignUpViewProps {
   colorTitleLoading?: string;
   colorSpinner?: string;
   colorEye?: string;
+  colorEyeHover?: string;
   colorError?: string;
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
@@ -84,6 +85,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
   colorEye = defaultStyleTypeA.mutedColor,
+  colorEyeHover = '#efefef',
   colorError,
   styleInput,
   styleButton,
@@ -202,7 +204,10 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   };
 
   const renderPasswordIcon = (
-    <TouchableHighlight onPress={() => setShowPassword(!showPassword)}>
+    <TouchableHighlight
+      onPress={() => setShowPassword(!showPassword)}
+      underlayColor={colorEyeHover}
+    >
       {showPassword ? (
         <BaseIcon name="eye" size={20} color={colorEye} />
       ) : (
