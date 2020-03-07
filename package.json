@@ -24,6 +24,8 @@
     "@cpmech/util": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/netinfo": "^5.5.1",
+    "@react-navigation/native": "^5.0.9",
+    "@react-navigation/stack": "^5.1.1",
     "@types/react-native-vector-icons": "^6.4.5",
     "amazon-cognito-identity-js": "^3.2.5",
     "aws-amplify": "^2.2.6",
@@ -34,10 +36,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-safe-area-view": "^1.0.0",
     "react-native-screens": "^2.2.0",
-    "react-native-vector-icons": "^6.6.0",
-    "react-navigation": "^4.2.2",
-    "react-navigation-stack": "^2.2.3",
-    "react-navigation-tabs": "^2.8.2"
+    "react-native-vector-icons": "^6.6.0"
   },
   "devDependencies": {
     "@react-native-community/async-storage": "^1.8.1",
@@ -49,7 +48,7 @@
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "react-test-renderer": "16.9.0",
-    "rollup": "^1.32.0",
+    "rollup": "^2.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
