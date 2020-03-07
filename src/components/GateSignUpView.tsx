@@ -175,8 +175,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             label="Email"
             value={values.email}
             onChangeText={v => setValue('email', v)}
-            // hlColor={hlColor}
-            darkMode={true}
+            hlColor={hlColor}
             error={vErrors.email}
             autoCompleteType="email"
             keyboardType="email-address"
