@@ -209,9 +209,9 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
       underlayColor={colorEyeHover}
     >
       {showPassword ? (
-        <BaseIcon name="eye" size={20} color={colorEye} />
-      ) : (
         <BaseIcon name="eye-off" size={20} color={colorEye} />
+      ) : (
+        <BaseIcon name="eye" size={20} color={colorEye} />
       )}
     </TouchableHighlight>
   );
