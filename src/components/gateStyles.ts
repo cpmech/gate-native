@@ -110,20 +110,6 @@ export const stylesFederatedButtons: IStyles = {
 };
 
 export const stylesSignUpForm: IStyles = {
-  root: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: params.hpadding.normal,
-    paddingRight: params.hpadding.normal,
-  },
-
-  container: {
-    marginTop: params.orLineVertSpace,
-    width: params.inputWidth,
-  },
-
   centered: {
     flex: 1,
     flexDirection: 'column',
