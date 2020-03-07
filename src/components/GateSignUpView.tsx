@@ -18,42 +18,42 @@ import { fonts, params } from './gateStyles';
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: 'cyan',
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputContainer: {
-    backgroundColor: 'gray',
     flex: 1,
   },
   footnote: {
-    backgroundColor: 'yellow',
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   footnoteLeft: {
-    backgroundColor: '#cecece',
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonContainer: {
-    backgroundColor: 'blue',
-    flex: 1,
+    flex: 1.5,
     flexDirection: 'row',
     alignItems: 'center',
   },
   buttonLeft: {
-    backgroundColor: 'green',
     flex: 1,
   },
   buttonRight: {
-    backgroundColor: 'magenta',
-    flex: 1,
+    flex: 1.2,
   },
   wantToConfirm: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    flex: 1,
+    alignItems: 'center',
   },
 });
 

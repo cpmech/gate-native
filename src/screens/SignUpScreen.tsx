@@ -25,9 +25,8 @@ const s = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    maxHeight: 400,
+    maxHeight: 500,
     maxWidth: 340,
-    backgroundColor: 'red',
   },
 });
 
@@ -56,7 +55,6 @@ export const SignUpScreen: React.FC = () => (
           styleLink={{
             color: 'yellow',
           }}
-          buttonMinWidth={180}
         />
       </View>
     </View>
