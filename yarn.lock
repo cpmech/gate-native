@@ -842,10 +842,10 @@
   resolved "https://registry.yarnpkg.com/@cpmech/rncomps/-/rncomps-2.2.0.tgz#509fa0505df3f318b2e4e4c6ac1e72fa646670e7"
   integrity sha512-vuGQazrNPg3kdEslxgYVmZdEUFlkCTSMT+q1dwIHBMjEmYw/L00fnEz1STwRyq0o2dqH+G+0CDa494wRSUomag==
 
-"@cpmech/util@^1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@cpmech/util/-/util-1.10.0.tgz#62a75088592744b83a14af6faa5de389e59f0255"
-  integrity sha512-RArv0ENeDsgmdPlecwGUd+6HDCgy7/s/YvwIcwP4CUfXx1BEGi73kTUpx417ve3DOUY2Cx74Fc2PgC8nv2HTLQ==
+"@cpmech/util@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@cpmech/util/-/util-1.11.0.tgz#4eff6ae32fe9d6e89d2878c9cef16918702acbe1"
+  integrity sha512-ph7C8XQOyoil0yV7aZUBfRh1ngudJ75ZrB2hGR+BCLff8sTUZ2FnscPS/Bw4xq1LYC01iNSYarU0qsqx+sIBDw==
   dependencies:
     "@cpmech/basic" "^4.9.0"
 

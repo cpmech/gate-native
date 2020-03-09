@@ -21,7 +21,7 @@
     "@cpmech/basic": "^4.9.0",
     "@cpmech/gate": "^3.10.1",
     "@cpmech/rncomps": "^2.2.0",
-    "@cpmech/util": "^1.10.0",
+    "@cpmech/util": "^1.11.0",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/netinfo": "^5.5.1",
     "@react-navigation/native": "^5.0.9",
