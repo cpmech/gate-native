@@ -4,6 +4,8 @@ import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from 
 import {
   IStyleButton,
   IStyleTypeA,
+  IStyleLink,
+  IconKind,
   BaseButton,
   BaseIcon,
   BaseLink,
@@ -11,7 +13,6 @@ import {
   InputTypeA,
   Popup,
   defaultStyleTypeA,
-  IStyleLink,
 } from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
 import { fonts, params } from './gateStyles';
@@ -76,6 +77,8 @@ interface IGateSignUpViewProps {
   styleButton?: IStyleButton;
   styleLink?: IStyleLink;
   buttonMinWidth?: number;
+  fontFamily?: string;
+  iconKind?: IconKind;
 }
 
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
@@ -91,6 +94,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   styleButton,
   styleLink,
   buttonMinWidth,
+  fontFamily,
+  iconKind = 'line',
 }) => {
   const {
     error,
@@ -203,23 +208,25 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     }
   };
 
+  const iconSize = styleInput?.fontSize || defaultStyleTypeA.fontSize;
+
   const renderPasswordIcon = (
     <TouchableHighlight
       onPress={() => setShowPassword(!showPassword)}
       underlayColor={colorEyeHover}
     >
       {showPassword ? (
-        <BaseIcon name="eye-off" size={20} color={colorEye} />
+        <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorEye} />
       ) : (
-        <BaseIcon name="eye" size={20} color={colorEye} />
+        <BaseIcon name="eye" kind={iconKind} size={iconSize} color={colorEye} />
       )}
     </TouchableHighlight>
   );
 
-  const txtHeader = { fontSize: fonts.header, color: colorText };
-  const txtSubheader = { fontSize: fonts.subheader, color: colorText };
-  const txtFootnote = { fontSize: fonts.footnote, color: colorText };
-  const txtSmallFootnote = { fontSize: fonts.smallFootnote, color: colorText };
+  const txtHeader = { fontFamily, fontSize: fonts.header, color: colorText };
+  const txtSubheader = { fontFamily, fontSize: fonts.subheader, color: colorText };
+  const txtFootnote = { fontFamily, fontSize: fonts.footnote, color: colorText };
+  const txtSmallFootnote = { fontFamily, fontSize: fonts.smallFootnote, color: colorText };
 
   return (
     <React.Fragment>

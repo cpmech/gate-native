@@ -4,6 +4,8 @@ import { ISignUpValues, ISignUpErrors, signUpValues2errors, t, LocalGateStore } 
 import {
   IStyleButton,
   IStyleTypeA,
+  IStyleLink,
+  IconKind,
   BaseButton,
   BaseIcon,
   BaseLink,
@@ -11,7 +13,6 @@ import {
   InputTypeA,
   Popup,
   defaultStyleTypeA,
-  IStyleLink,
 } from '@cpmech/rncomps';
 import { useGateObserver } from './useGateObserver';
 import { fonts, params } from './gateStyles';
@@ -76,6 +77,8 @@ interface ILocalGateSignUpViewProps {
   styleButton?: IStyleButton;
   styleLink?: IStyleLink;
   buttonMinWidth?: number;
+  fontFamily?: string;
+  iconKind?: IconKind;
 
   ignoreErrors?: boolean;
 }
@@ -93,6 +96,8 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   styleButton,
   styleLink,
   buttonMinWidth,
+  fontFamily,
+  iconKind = 'line',
 
   ignoreErrors,
 }) => {
@@ -156,21 +161,23 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
     }
   };
 
+  const iconSize = styleInput?.fontSize || defaultStyleTypeA.fontSize;
+
   const renderPasswordIcon = (
     <TouchableHighlight
       onPress={() => setShowPassword(!showPassword)}
       underlayColor={colorEyeHover}
     >
       {showPassword ? (
-        <BaseIcon name="eye-off" size={20} color={colorEye} />
+        <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorEye} />
       ) : (
-        <BaseIcon name="eye" size={20} color={colorEye} />
+        <BaseIcon name="eye" kind={iconKind} size={iconSize} color={colorEye} />
       )}
     </TouchableHighlight>
   );
 
-  const txtHeader = { fontSize: fonts.header, color: colorText };
-  const txtFootnote = { fontSize: fonts.footnote, color: colorText };
+  const txtHeader = { fontFamily, fontSize: fonts.header, color: colorText };
+  const txtFootnote = { fontFamily, fontSize: fonts.footnote, color: colorText };
 
   return (
     <React.Fragment>
