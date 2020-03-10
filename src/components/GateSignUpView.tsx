@@ -68,16 +68,12 @@ export interface IFonts {
     subHeader?: number;
     footnote?: number;
     smallFootnote?: number;
-    input?: number;
-    button?: number;
   };
   familiy?: {
     header?: string;
     subHeader?: string;
     footnote?: string;
     smallFootnote?: string;
-    input?: string;
-    button?: string;
     link?: string;
   };
 }
@@ -125,8 +121,6 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
       subHeader: 20,
       footnote: 16,
       smallFootnote: 14,
-      input: 18,
-      button: 16,
     },
   },
   //
@@ -377,10 +371,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                   resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
                 }}
                 message={t('back')}
-                color={colorLink}
-                fontSize={fonts?.size?.button}
-                fontFamily={fonts?.familiy?.link}
-                darkBackground={linkDarkBackground}
+                {...linkFootnote}
               />
             </View>
           </View>
@@ -410,7 +401,6 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <BaseButton
             onPress={async () => await submit()}
             borderRadius={buttonBorderRadius}
-            fontSize={fonts?.size?.button}
             height={buttonHeight}
             text={
               isConfirm

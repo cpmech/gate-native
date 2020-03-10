@@ -22,6 +22,7 @@ const props = {
     color: colors.orange,
     backgroundColor: '#ffffff',
     fontWeight: 'bold' as FontWeight,
+    fontSize: 16,
   },
 };
 

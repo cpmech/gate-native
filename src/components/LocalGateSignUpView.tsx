@@ -108,8 +108,6 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
       subHeader: 20,
       footnote: 16,
       smallFootnote: 14,
-      input: 18,
-      button: 16,
     },
   },
 
@@ -270,10 +268,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
                   setIsClearStorage(false);
                 }}
                 message={t('back')}
-                color={colorLink}
-                fontSize={fonts?.size?.button}
-                fontFamily={fonts?.familiy?.link}
-                darkBackground={linkDarkBackground}
+                {...linkFootnote}
               />
             </View>
           </View>
@@ -303,7 +298,6 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
           <BaseButton
             onPress={async () => await submit()}
             borderRadius={buttonBorderRadius}
-            fontSize={fonts?.size?.button}
             height={buttonHeight}
             text={
               isClearStorage
