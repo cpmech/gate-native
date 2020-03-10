@@ -78,7 +78,6 @@ interface ILocalGateSignUpViewProps {
   buttonHeight?: number;
   buttonBorderRadius?: number;
   buttonMinWidth?: number;
-  linkDarkBackground?: boolean;
   iconKind?: IconKind;
   fonts?: IFonts;
 
@@ -100,7 +99,6 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   buttonHeight = 45,
   buttonBorderRadius = 1000,
   buttonMinWidth,
-  linkDarkBackground,
   iconKind = 'line',
   fonts = {
     size: {
@@ -201,13 +199,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
     color: colorLink,
     fontSize: fonts?.size?.footnote,
     fontFamily: fonts?.familiy?.link,
-    darkBackground: linkDarkBackground,
   };
   const linkSmallFootnote = {
     color: colorLink,
     fontSize: fonts?.size?.smallFootnote,
     fontFamily: fonts?.familiy?.link,
-    darkBackground: linkDarkBackground,
   };
 
   return (

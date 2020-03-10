@@ -93,7 +93,6 @@ export interface IGateSignUpViewProps {
   buttonHeight?: number;
   buttonBorderRadius?: number;
   buttonMinWidth?: number;
-  linkDarkBackground?: boolean;
   iconKind?: IconKind;
   fonts?: IFonts;
 }
@@ -113,7 +112,6 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   buttonHeight = 45,
   buttonBorderRadius = 1000,
   buttonMinWidth,
-  linkDarkBackground,
   iconKind = 'line',
   fonts = {
     size: {
@@ -273,13 +271,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     color: colorLink,
     fontSize: fonts?.size?.footnote,
     fontFamily: fonts?.familiy?.link,
-    darkBackground: linkDarkBackground,
   };
   const linkSmallFootnote = {
     color: colorLink,
     fontSize: fonts?.size?.smallFootnote,
     fontFamily: fonts?.familiy?.link,
-    darkBackground: linkDarkBackground,
   };
 
   return (
