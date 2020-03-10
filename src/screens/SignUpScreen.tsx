@@ -1,13 +1,14 @@
 import React from 'react';
 import { FontWeight, withScrollKeysAware } from '@cpmech/rncomps';
 import { GateStore, LocalGateStore } from '@cpmech/gate';
-import { GateSignUpView, LocalGateSignUpView } from '../components';
+import { GateSignUpView, LocalGateSignUpView, IFonts } from '../components';
 import { gate, isLocal } from '../service';
 import { colors, params } from '../styles';
 
 const props = {
-  colorEye: colors.lightenOrange50pct,
+  colorIcon: colors.lightenOrange50pct,
   colorText: '#ffffff',
+  colorLink: 'yellow',
   colorError: '#ff1919',
   styleInput: {
     color: '#ffffff',
@@ -21,10 +22,6 @@ const props = {
     color: colors.orange,
     backgroundColor: '#ffffff',
     fontWeight: 'bold' as FontWeight,
-  },
-  styleLink: {
-    color: 'yellow',
-    darkBackground: true,
   },
 };
 

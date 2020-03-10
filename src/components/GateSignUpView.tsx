@@ -4,7 +4,6 @@ import { GateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from 
 import {
   IStyleButton,
   IStyleTypeA,
-  IStyleLink,
   IconKind,
   BaseButton,
   BaseIcon,
@@ -15,7 +14,6 @@ import {
   defaultStyleTypeA,
 } from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
-import { fonts, params } from './gateStyles';
 
 const styles = StyleSheet.create({
   header: {
@@ -64,39 +62,76 @@ const styles = StyleSheet.create({
   },
 });
 
-interface IGateSignUpViewProps {
+export interface IFonts {
+  size?: {
+    header?: number;
+    subHeader?: number;
+    footnote?: number;
+    smallFootnote?: number;
+    input?: number;
+    button?: number;
+  };
+  familiy?: {
+    header?: string;
+    subHeader?: string;
+    footnote?: string;
+    smallFootnote?: string;
+    input?: string;
+    button?: string;
+    link?: string;
+  };
+}
+
+export interface IGateSignUpViewProps {
   gate: GateStore;
   iniEmail?: string;
+
+  colorIcon?: string;
   colorText?: string;
+  colorLink?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
-  colorEye?: string;
-  colorEyeHover?: string;
   colorError?: string;
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
-  styleLink?: IStyleLink;
+  buttonHeight?: number;
+  buttonBorderRadius?: number;
   buttonMinWidth?: number;
-  fontFamily?: string;
+  linkDarkBackground?: boolean;
   iconKind?: IconKind;
+  fonts?: IFonts;
 }
 
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
+
+  colorIcon = defaultStyleTypeA.mutedColor,
   colorText = '#484848',
+  colorLink = '#484848',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
-  colorEye = defaultStyleTypeA.mutedColor,
-  colorEyeHover = '#efefef',
   colorError,
   styleInput,
   styleButton,
-  styleLink,
+  buttonHeight = 45,
+  buttonBorderRadius = 1000,
   buttonMinWidth,
-  fontFamily,
+  linkDarkBackground,
   iconKind = 'line',
+  fonts = {
+    size: {
+      header: 22,
+      subHeader: 20,
+      footnote: 16,
+      smallFootnote: 14,
+      input: 18,
+      button: 16,
+    },
+  },
+  //
 }) => {
+  //
   const {
     error,
     needToConfirm,
@@ -211,22 +246,47 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   const iconSize = styleInput?.fontSize || defaultStyleTypeA.fontSize;
 
   const renderPasswordIcon = (
-    <TouchableHighlight
-      onPress={() => setShowPassword(!showPassword)}
-      underlayColor={colorEyeHover}
-    >
+    <TouchableHighlight onPress={() => setShowPassword(!showPassword)} underlayColor="transparent">
       {showPassword ? (
-        <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorEye} />
+        <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorIcon} />
       ) : (
-        <BaseIcon name="eye" kind={iconKind} size={iconSize} color={colorEye} />
+        <BaseIcon name="eye" kind={iconKind} size={iconSize} color={colorIcon} />
       )}
     </TouchableHighlight>
   );
 
-  const txtHeader = { fontFamily, fontSize: fonts.header, color: colorText };
-  const txtSubheader = { fontFamily, fontSize: fonts.subheader, color: colorText };
-  const txtFootnote = { fontFamily, fontSize: fonts.footnote, color: colorText };
-  const txtSmallFootnote = { fontFamily, fontSize: fonts.smallFootnote, color: colorText };
+  const txtHeader = {
+    fontFamily: fonts.familiy?.header,
+    fontSize: fonts.size.header,
+    color: colorText,
+  };
+  const txtSubheader = {
+    fontFamily: fonts.familiy?.subHeader,
+    fontSize: fonts.size.subHeader,
+    color: colorText,
+  };
+  const txtFootnote = {
+    fontFamily: fonts.familiy?.footnote,
+    fontSize: fonts.size.footnote,
+    color: colorText,
+  };
+  const txtSmallFootnote = {
+    fontFamily: fonts.familiy?.smallFootnote,
+    fontSize: fonts.size.smallFootnote,
+    color: colorText,
+  };
+  const linkFootnote = {
+    color: colorLink,
+    fontSize: fonts.size.footnote,
+    fontFamily: fonts.familiy?.link,
+    darkBackground: linkDarkBackground,
+  };
+  const linkSmallFootnote = {
+    color: colorLink,
+    fontSize: fonts.size.smallFootnote,
+    fontFamily: fonts.familiy?.link,
+    darkBackground: linkDarkBackground,
+  };
 
   return (
     <React.Fragment>
@@ -317,8 +377,10 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                   resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
                 }}
                 message={t('back')}
-                fontSize={fonts.button}
-                {...styleLink}
+                color={colorLink}
+                fontSize={fonts.size.button}
+                fontFamily={fonts.familiy.link}
+                darkBackground={linkDarkBackground}
               />
             </View>
           </View>
@@ -337,8 +399,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                   setIsSignIn(!isSignIn);
                 }}
                 message={isSignIn ? t('signUp') : t('gotoSignIn')}
-                fontSize={fonts.footnote}
-                {...styleLink}
+                {...linkFootnote}
               />
             </View>
           </View>
@@ -348,9 +409,9 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
         <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
           <BaseButton
             onPress={async () => await submit()}
-            borderRadius={300}
-            fontSize={fonts.button}
-            height={params.buttonHeight}
+            borderRadius={buttonBorderRadius}
+            fontSize={fonts.size.button}
+            height={buttonHeight}
             text={
               isConfirm
                 ? t('confirm').toUpperCase()
@@ -375,8 +436,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             <BaseLink
               onPress={async () => await resendCodeInResetPwdView()}
               message={t('resendCode')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
+              {...linkSmallFootnote}
             />
           </View>
         )}
@@ -391,8 +451,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 setResetPasswordStep1(true);
               }}
               message={t('resetPassword')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
+              {...linkSmallFootnote}
             />
           </View>
         )}
@@ -404,8 +463,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
             <BaseLink
               onPress={async () => await resendCodeInConfirmView()}
               message={t('resendCode')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
+              {...linkSmallFootnote}
             />
           </View>
         )}
@@ -420,8 +478,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 setWantToConfirm(true);
               }}
               message={t('gotoConfirm')}
-              fontSize={fonts.smallFootnote}
-              {...styleLink}
+              {...linkSmallFootnote}
             />
           </View>
         )}

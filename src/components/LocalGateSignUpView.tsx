@@ -4,7 +4,6 @@ import { ISignUpValues, ISignUpErrors, signUpValues2errors, t, LocalGateStore } 
 import {
   IStyleButton,
   IStyleTypeA,
-  IStyleLink,
   IconKind,
   BaseButton,
   BaseIcon,
@@ -15,7 +14,7 @@ import {
   defaultStyleTypeA,
 } from '@cpmech/rncomps';
 import { useGateObserver } from './useGateObserver';
-import { fonts, params } from './gateStyles';
+import { IFonts } from './GateSignUpView';
 
 const styles = StyleSheet.create({
   header: {
@@ -67,18 +66,21 @@ const styles = StyleSheet.create({
 interface ILocalGateSignUpViewProps {
   gate: LocalGateStore;
   iniEmail?: string;
+
+  colorIcon?: string;
   colorText?: string;
+  colorLink?: string;
   colorTitleLoading?: string;
   colorSpinner?: string;
-  colorEye?: string;
-  colorEyeHover?: string;
   colorError?: string;
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
-  styleLink?: IStyleLink;
+  buttonHeight?: number;
+  buttonBorderRadius?: number;
   buttonMinWidth?: number;
-  fontFamily?: string;
+  linkDarkBackground?: boolean;
   iconKind?: IconKind;
+  fonts?: IFonts;
 
   ignoreErrors?: boolean;
 }
@@ -86,21 +88,35 @@ interface ILocalGateSignUpViewProps {
 export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
+
+  colorIcon = defaultStyleTypeA.mutedColor,
   colorText = '#484848',
+  colorLink = '#484848',
   colorTitleLoading = '#236cd2',
   colorSpinner = '#236cd2',
-  colorEye = defaultStyleTypeA.mutedColor,
-  colorEyeHover = '#efefef',
   colorError,
   styleInput,
   styleButton,
-  styleLink,
+  buttonHeight = 45,
+  buttonBorderRadius = 1000,
   buttonMinWidth,
-  fontFamily,
+  linkDarkBackground,
   iconKind = 'line',
+  fonts = {
+    size: {
+      header: 22,
+      subHeader: 20,
+      footnote: 16,
+      smallFootnote: 14,
+      input: 18,
+      button: 16,
+    },
+  },
 
   ignoreErrors,
+  //
 }) => {
+  //
   const { error, processing } = useGateObserver(gate, '@cpmech/gate-native/GateSignUpView');
 
   const [isSignIn, setIsSignIn] = useState(false);
@@ -164,20 +180,37 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   const iconSize = styleInput?.fontSize || defaultStyleTypeA.fontSize;
 
   const renderPasswordIcon = (
-    <TouchableHighlight
-      onPress={() => setShowPassword(!showPassword)}
-      underlayColor={colorEyeHover}
-    >
+    <TouchableHighlight onPress={() => setShowPassword(!showPassword)} underlayColor="transparent">
       {showPassword ? (
-        <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorEye} />
+        <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorIcon} />
       ) : (
-        <BaseIcon name="eye" kind={iconKind} size={iconSize} color={colorEye} />
+        <BaseIcon name="eye" kind={iconKind} size={iconSize} color={colorIcon} />
       )}
     </TouchableHighlight>
   );
 
-  const txtHeader = { fontFamily, fontSize: fonts.header, color: colorText };
-  const txtFootnote = { fontFamily, fontSize: fonts.footnote, color: colorText };
+  const txtHeader = {
+    fontFamily: fonts.familiy?.header,
+    fontSize: fonts.size.header,
+    color: colorText,
+  };
+  const txtFootnote = {
+    fontFamily: fonts.familiy?.footnote,
+    fontSize: fonts.size.footnote,
+    color: colorText,
+  };
+  const linkFootnote = {
+    color: colorLink,
+    fontSize: fonts.size.footnote,
+    fontFamily: fonts.familiy?.link,
+    darkBackground: linkDarkBackground,
+  };
+  const linkSmallFootnote = {
+    color: colorLink,
+    fontSize: fonts.size.smallFootnote,
+    fontFamily: fonts.familiy?.link,
+    darkBackground: linkDarkBackground,
+  };
 
   return (
     <React.Fragment>
@@ -237,8 +270,10 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
                   setIsClearStorage(false);
                 }}
                 message={t('back')}
-                fontSize={fonts.button}
-                {...styleLink}
+                color={colorLink}
+                fontSize={fonts.size.button}
+                fontFamily={fonts.familiy.link}
+                darkBackground={linkDarkBackground}
               />
             </View>
           </View>
@@ -257,8 +292,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
                   setIsSignIn(!isSignIn);
                 }}
                 message={isSignIn ? t('signUp') : t('gotoSignIn')}
-                fontSize={fonts.footnote}
-                {...styleLink}
+                {...linkFootnote}
               />
             </View>
           </View>
@@ -268,9 +302,9 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
         <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
           <BaseButton
             onPress={async () => await submit()}
-            borderRadius={300}
-            fontSize={fonts.button}
-            height={params.buttonHeight}
+            borderRadius={buttonBorderRadius}
+            fontSize={fonts.size.button}
+            height={buttonHeight}
             text={
               isClearStorage
                 ? t('clear')
@@ -292,8 +326,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
               setIsClearStorage(true);
             }}
             message={t('clearLocalStorage')}
-            fontSize={fonts.smallFootnote}
-            {...styleLink}
+            {...linkSmallFootnote}
           />
         </View>
       </View>
