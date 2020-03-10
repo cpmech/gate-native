@@ -256,35 +256,35 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   );
 
   const txtHeader = {
-    fontFamily: fonts.familiy?.header,
-    fontSize: fonts.size.header,
+    fontFamily: fonts?.familiy?.header,
+    fontSize: fonts?.size?.header,
     color: colorText,
   };
   const txtSubheader = {
-    fontFamily: fonts.familiy?.subHeader,
-    fontSize: fonts.size.subHeader,
+    fontFamily: fonts?.familiy?.subHeader,
+    fontSize: fonts?.size?.subHeader,
     color: colorText,
   };
   const txtFootnote = {
-    fontFamily: fonts.familiy?.footnote,
-    fontSize: fonts.size.footnote,
+    fontFamily: fonts?.familiy?.footnote,
+    fontSize: fonts?.size?.footnote,
     color: colorText,
   };
   const txtSmallFootnote = {
-    fontFamily: fonts.familiy?.smallFootnote,
-    fontSize: fonts.size.smallFootnote,
+    fontFamily: fonts?.familiy?.smallFootnote,
+    fontSize: fonts?.size?.smallFootnote,
     color: colorText,
   };
   const linkFootnote = {
     color: colorLink,
-    fontSize: fonts.size.footnote,
-    fontFamily: fonts.familiy?.link,
+    fontSize: fonts?.size?.footnote,
+    fontFamily: fonts?.familiy?.link,
     darkBackground: linkDarkBackground,
   };
   const linkSmallFootnote = {
     color: colorLink,
-    fontSize: fonts.size.smallFootnote,
-    fontFamily: fonts.familiy?.link,
+    fontSize: fonts?.size?.smallFootnote,
+    fontFamily: fonts?.familiy?.link,
     darkBackground: linkDarkBackground,
   };
 
@@ -378,8 +378,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 }}
                 message={t('back')}
                 color={colorLink}
-                fontSize={fonts.size.button}
-                fontFamily={fonts.familiy.link}
+                fontSize={fonts?.size?.button}
+                fontFamily={fonts?.familiy?.link}
                 darkBackground={linkDarkBackground}
               />
             </View>
@@ -410,7 +410,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <BaseButton
             onPress={async () => await submit()}
             borderRadius={buttonBorderRadius}
-            fontSize={fonts.size.button}
+            fontSize={fonts?.size?.button}
             height={buttonHeight}
             text={
               isConfirm
