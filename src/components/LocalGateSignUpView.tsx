@@ -259,11 +259,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
           <View style={styles.buttonLeft}>
             <View style={styles.footnoteLeft}>
               <BaseLink
+                text={t('back')}
                 onPress={() => {
                   clearErrors();
                   setIsClearStorage(false);
                 }}
-                message={t('back')}
                 {...linkFootnote}
               />
             </View>
@@ -278,11 +278,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
                 {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
               </Text>
               <BaseLink
+                text={isSignIn ? t('signUp') : t('gotoSignIn')}
                 onPress={() => {
                   clearErrors();
                   setIsSignIn(!isSignIn);
                 }}
-                message={isSignIn ? t('signUp') : t('gotoSignIn')}
                 {...linkFootnote}
               />
             </View>
@@ -311,11 +311,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
         {/* ----------------- footnote: remove account ----------------- */}
         <View style={styles.footnote}>
           <BaseLink
+            text={t('clearLocalStorage')}
             onPress={() => {
               clearErrors();
               setIsClearStorage(true);
             }}
-            message={t('clearLocalStorage')}
             {...linkSmallFootnote}
           />
         </View>

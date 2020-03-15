@@ -359,6 +359,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <View style={styles.buttonLeft}>
             <View style={styles.footnoteLeft}>
               <BaseLink
+                text={t('back')}
                 onPress={() => {
                   clearErrors();
                   wantToConfirm && setWantToConfirm(false);
@@ -366,7 +367,6 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                   resetPasswordStep1 && setResetPasswordStep1(false);
                   resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
                 }}
-                message={t('back')}
                 {...linkFootnote}
               />
             </View>
@@ -381,11 +381,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
                 {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
               </Text>
               <BaseLink
+                text={isSignIn ? t('signUp') : t('gotoSignIn')}
                 onPress={() => {
                   clearErrors();
                   setIsSignIn(!isSignIn);
                 }}
-                message={isSignIn ? t('signUp') : t('gotoSignIn')}
                 {...linkFootnote}
               />
             </View>
@@ -420,8 +420,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <View style={styles.footnote}>
             <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
             <BaseLink
+              text={t('resendCode')}
               onPress={async () => await resendCodeInResetPwdView()}
-              message={t('resendCode')}
               {...linkSmallFootnote}
             />
           </View>
@@ -432,11 +432,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <View style={styles.footnote}>
             <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
             <BaseLink
+              text={t('resetPassword')}
               onPress={() => {
                 clearErrors();
                 setResetPasswordStep1(true);
               }}
-              message={t('resetPassword')}
               {...linkSmallFootnote}
             />
           </View>
@@ -447,8 +447,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <View style={styles.footnote}>
             <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
             <BaseLink
+              text={t('resendCode')}
               onPress={async () => await resendCodeInConfirmView()}
-              message={t('resendCode')}
               {...linkSmallFootnote}
             />
           </View>
@@ -459,11 +459,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           <View style={styles.wantToConfirm}>
             <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
             <BaseLink
+              text={t('gotoConfirm')}
               onPress={() => {
                 clearErrors();
                 setWantToConfirm(true);
               }}
-              message={t('gotoConfirm')}
               {...linkSmallFootnote}
             />
           </View>
