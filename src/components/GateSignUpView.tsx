@@ -10,42 +10,36 @@ import {
   BaseLink,
   FormErrorField,
   InputTypeA,
-  Popup,
   defaultStyleTypeA,
 } from '@cpmech/rncomps';
 import { useGateObserver } from '../components/useGateObserver';
 
 const styles = StyleSheet.create({
   header: {
-    flex: 1,
+    flex: 1.2,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   inputContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  footnotes: {
-    flex: 0.7,
+  inputErrorContainer: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  controlContainer: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  leftContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  footnote: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  footnoteLeft: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    flex: 1.5,
-    flexDirection: 'row',
     alignItems: 'center',
   },
   buttonLeft: {
@@ -54,8 +48,20 @@ const styles = StyleSheet.create({
   buttonRight: {
     flex: 1.2,
   },
-  wantToConfirm: {
-    flex: 1,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notifications: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationsText: {
+    textAlign: 'center',
+  },
+  footnote: {
+    flex: 0.4,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -64,12 +70,16 @@ const styles = StyleSheet.create({
 
 export interface IFonts {
   size?: {
+    message?: number;
+    error?: number;
     header?: number;
     subHeader?: number;
     footnote?: number;
     smallFootnote?: number;
   };
   familiy?: {
+    message?: string;
+    error?: string;
     header?: string;
     subHeader?: string;
     footnote?: string;
@@ -82,11 +92,10 @@ export interface IGateSignUpViewProps {
   gate: GateStore;
   iniEmail?: string;
 
+  marginTop?: number;
   colorIcon?: string;
   colorText?: string;
   colorLink?: string;
-  colorTitleLoading?: string;
-  colorSpinner?: string;
   colorError?: string;
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
@@ -101,12 +110,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
 
+  marginTop = 30,
   colorIcon = defaultStyleTypeA.mutedColor,
   colorText = '#484848',
   colorLink = '#484848',
-  colorTitleLoading = '#236cd2',
-  colorSpinner = '#236cd2',
-  colorError,
+  colorError = 'red',
   styleInput,
   styleButton,
   buttonHeight = 45,
@@ -115,6 +123,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   iconKind = 'line',
   fonts = {
     size: {
+      message: 18,
+      error: 18,
       header: 22,
       subHeader: 20,
       footnote: 16,
@@ -145,7 +155,10 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   const isResetPassword = resetPasswordStep1 || resetPasswordStep2;
   const atNextPage = isConfirm || isResetPassword;
 
-  const clearErrors = () => {
+  const clearNotifications = () => {
+    !!error && gate.notify({ error: '' });
+    !!doneSendCode && gate.notify({ doneSendCode: false });
+    !!doneResetPassword && gate.notify({ doneResetPassword: false });
     setTouchedButtons(false);
     setVerrors({ email: '', password: '', code: '' });
   };
@@ -186,7 +199,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
       }
       await gate.confirmSignUpOnly(values.email, values.code);
       setValues({ email: '', password: '', code: '' });
-      clearErrors();
+      clearNotifications();
       setWantToConfirm(false);
       setIsSignIn(true);
       return;
@@ -238,7 +251,11 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   const iconSize = styleInput?.fontSize || defaultStyleTypeA.fontSize;
 
   const renderPasswordIcon = (
-    <TouchableHighlight onPress={() => setShowPassword(!showPassword)} underlayColor="transparent">
+    <TouchableHighlight
+      disabled={processing}
+      onPress={() => setShowPassword(!showPassword)}
+      underlayColor="transparent"
+    >
       {showPassword ? (
         <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorIcon} />
       ) : (
@@ -247,6 +264,16 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     </TouchableHighlight>
   );
 
+  const txtMessage = {
+    fontFamily: fonts?.familiy?.message,
+    fontSize: fonts?.size?.message,
+    color: colorText,
+  };
+  const txtError = {
+    fontFamily: fonts?.familiy?.error,
+    fontSize: fonts?.size?.error,
+    color: colorError,
+  };
   const txtHeader = {
     fontFamily: fonts?.familiy?.header,
     fontSize: fonts?.size?.header,
@@ -280,6 +307,8 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
   return (
     <React.Fragment>
+      <View style={{ marginTop }} />
+
       {/* ----------------- header -- reset password ---------------- */}
       {isResetPassword && (
         <View style={styles.header}>
@@ -301,204 +330,208 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
 
       {/* ----------------------- input email ------------------------ */}
       {!resetPasswordStep2 && (
-        <View style={styles.inputContainer}>
-          <InputTypeA
-            label="Email"
-            value={values.email}
-            onChangeText={v => setValue('email', v)}
-            error={vErrors.email}
-            autoCompleteType="email"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoCapitalize="none"
-            autoCorrect={false}
-            {...styleInput}
-          />
-          <FormErrorField error={vErrors.email} color={colorError} />
-        </View>
+        <React.Fragment>
+          <View style={styles.inputContainer}>
+            <InputTypeA
+              disabled={processing}
+              label="Email"
+              value={values.email}
+              onChangeText={v => setValue('email', v)}
+              error={vErrors.email}
+              autoCompleteType="email"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              autoCapitalize="none"
+              autoCorrect={false}
+              {...styleInput}
+            />
+          </View>
+          <View style={styles.inputErrorContainer}>
+            <FormErrorField error={vErrors.email} color={colorError} />
+          </View>
+        </React.Fragment>
       )}
 
       {/* ----------------------- input code ------------------------- */}
       {(isConfirm || resetPasswordStep2) && (
-        <View style={styles.inputContainer}>
-          <InputTypeA
-            label={t('confirmationCode')}
-            value={values.code}
-            onChangeText={v => setValue('code', v)}
-            error={vErrors.code}
-            factorFontsize2width={0.55}
-            keyboardType="numeric"
-            {...styleInput}
-          />
-          <FormErrorField error={vErrors.code} color={colorError} />
-        </View>
+        <React.Fragment>
+          <View style={styles.inputContainer}>
+            <InputTypeA
+              disabled={processing}
+              label={t('confirmationCode')}
+              value={values.code}
+              onChangeText={v => setValue('code', v)}
+              error={vErrors.code}
+              factorFontsize2width={0.55}
+              keyboardType="numeric"
+              {...styleInput}
+            />
+          </View>
+          <View style={styles.inputErrorContainer}>
+            <FormErrorField error={vErrors.code} color={colorError} />
+          </View>
+        </React.Fragment>
       )}
 
       {/* --------------------- input password ----------------------- */}
       {!(isConfirm || resetPasswordStep1) && (
-        <View style={styles.inputContainer}>
-          <InputTypeA
-            label={resetPasswordStep2 ? t('newPassword') : t('password')}
-            value={values.password}
-            suffix={renderPasswordIcon}
-            onChangeText={v => setValue('password', v)}
-            error={vErrors.password}
-            autoCorrect={false}
-            textContentType="password"
-            secureTextEntry={!showPassword}
-            {...styleInput}
+        <React.Fragment>
+          <View style={styles.inputContainer}>
+            <InputTypeA
+              disabled={processing}
+              label={resetPasswordStep2 ? t('newPassword') : t('password')}
+              value={values.password}
+              suffix={renderPasswordIcon}
+              onChangeText={v => setValue('password', v)}
+              error={vErrors.password}
+              autoCorrect={false}
+              textContentType="password"
+              secureTextEntry={!showPassword}
+              {...styleInput}
+            />
+          </View>
+          <View style={styles.inputErrorContainer}>
+            <FormErrorField error={vErrors.password} color={colorError} />
+          </View>
+        </React.Fragment>
+      )}
+
+      {/* ----------------------- control ---------------------- */}
+      <View style={styles.controlContainer}>
+        {/* --------- go back and button ---------  */}
+        <View style={styles.buttonContainer}>
+          {/* ....... footnote: go back ....... */}
+          {atNextPage && (
+            <View style={styles.buttonLeft}>
+              <View style={styles.leftContainer}>
+                <BaseLink
+                  disabled={processing}
+                  text={t('back')}
+                  onPress={() => {
+                    clearNotifications();
+                    wantToConfirm && setWantToConfirm(false);
+                    needToConfirm && gate.notify({ needToConfirm: false });
+                    resetPasswordStep1 && setResetPasswordStep1(false);
+                    resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
+                  }}
+                  {...linkFootnote}
+                />
+              </View>
+            </View>
+          )}
+
+          {/* ....... footnote: signIn or signUp ....... */}
+          {!atNextPage && (
+            <View style={styles.buttonLeft}>
+              <View style={styles.leftContainer}>
+                <Text style={txtFootnote}>
+                  {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
+                </Text>
+                <BaseLink
+                  disabled={processing}
+                  text={isSignIn ? t('signUp') : t('gotoSignIn')}
+                  onPress={() => {
+                    clearNotifications();
+                    setIsSignIn(!isSignIn);
+                  }}
+                  {...linkFootnote}
+                />
+              </View>
+            </View>
+          )}
+
+          {/* ....... submit ....... */}
+          <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
+            <BaseButton
+              spinning={processing}
+              onPress={async () => await submit()}
+              borderRadius={buttonBorderRadius}
+              height={buttonHeight}
+              text={
+                isConfirm
+                  ? t('confirm').toUpperCase()
+                  : resetPasswordStep1
+                  ? t('sendCode').toUpperCase()
+                  : resetPasswordStep2
+                  ? t('submit').toUpperCase()
+                  : isSignIn
+                  ? t('enter').toUpperCase()
+                  : t('signUp').toUpperCase()
+              }
+              {...styleButton}
+            />
+          </View>
+        </View>
+
+        {/* ....... notifications ....... */}
+        <View style={styles.notifications}>
+          {!!error && <Text style={[styles.notificationsText, txtError]}>{error}</Text>}
+          {doneSendCode && (
+            <Text style={[styles.notificationsText, txtMessage]}>{t('doneSendCode')}</Text>
+          )}
+          {doneResetPassword && (
+            <Text style={[styles.notificationsText, txtMessage]}>{t('doneResetPassword')}</Text>
+          )}
+        </View>
+      </View>
+
+      {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
+      {resetPasswordStep2 && (
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
+          <BaseLink
+            disabled={processing}
+            text={t('resendCode')}
+            onPress={async () => await resendCodeInResetPwdView()}
+            {...linkSmallFootnote}
           />
-          <FormErrorField error={vErrors.password} color={colorError} />
         </View>
       )}
 
-      {/* ----------------------- submit button ---------------------- */}
-      <View style={styles.buttonContainer}>
-        {/* ....... footnote: go back ....... */}
-        {atNextPage && (
-          <View style={styles.buttonLeft}>
-            <View style={styles.footnoteLeft}>
-              <BaseLink
-                text={t('back')}
-                onPress={() => {
-                  clearErrors();
-                  wantToConfirm && setWantToConfirm(false);
-                  needToConfirm && gate.notify({ needToConfirm: false });
-                  resetPasswordStep1 && setResetPasswordStep1(false);
-                  resetPasswordStep2 && gate.notify({ resetPasswordStep2: false });
-                }}
-                {...linkFootnote}
-              />
-            </View>
-          </View>
-        )}
-
-        {/* ....... footnote: signIn or signUp ....... */}
-        {!atNextPage && (
-          <View style={styles.buttonLeft}>
-            <View style={styles.footnoteLeft}>
-              <Text style={txtFootnote}>
-                {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
-              </Text>
-              <BaseLink
-                text={isSignIn ? t('signUp') : t('gotoSignIn')}
-                onPress={() => {
-                  clearErrors();
-                  setIsSignIn(!isSignIn);
-                }}
-                {...linkFootnote}
-              />
-            </View>
-          </View>
-        )}
-
-        {/* ....... submit ....... */}
-        <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
-          <BaseButton
-            onPress={async () => await submit()}
-            borderRadius={buttonBorderRadius}
-            height={buttonHeight}
-            text={
-              isConfirm
-                ? t('confirm').toUpperCase()
-                : resetPasswordStep1
-                ? t('sendCode').toUpperCase()
-                : resetPasswordStep2
-                ? t('submit').toUpperCase()
-                : isSignIn
-                ? t('enter').toUpperCase()
-                : t('signUp').toUpperCase()
-            }
-            {...styleButton}
+      {/* ----------------- footnote: reset password ----------------- */}
+      {isSignIn && !atNextPage && (
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
+          <BaseLink
+            disabled={processing}
+            text={t('resetPassword')}
+            onPress={() => {
+              clearNotifications();
+              setResetPasswordStep1(true);
+            }}
+            {...linkSmallFootnote}
           />
         </View>
-      </View>
+      )}
 
-      <View style={styles.footnotes}>
-        {/* ----- footnote: resend code -- (resetPasswordStep2) -------- */}
-        {resetPasswordStep2 && (
-          <View style={styles.footnote}>
-            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
-            <BaseLink
-              text={t('resendCode')}
-              onPress={async () => await resendCodeInResetPwdView()}
-              {...linkSmallFootnote}
-            />
-          </View>
-        )}
+      {/* ----------------- footnote: resend code -------------------- */}
+      {isConfirm && (
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
+          <BaseLink
+            disabled={processing}
+            text={t('resendCode')}
+            onPress={async () => await resendCodeInConfirmView()}
+            {...linkSmallFootnote}
+          />
+        </View>
+      )}
 
-        {/* ----------------- footnote: reset password ----------------- */}
-        {isSignIn && !atNextPage && (
-          <View style={styles.footnote}>
-            <Text style={txtSmallFootnote}>{t('forgotPassword')}&nbsp;</Text>
-            <BaseLink
-              text={t('resetPassword')}
-              onPress={() => {
-                clearErrors();
-                setResetPasswordStep1(true);
-              }}
-              {...linkSmallFootnote}
-            />
-          </View>
-        )}
-
-        {/* ----------------- footnote: resend code -------------------- */}
-        {isConfirm && (
-          <View style={styles.footnote}>
-            <Text style={txtSmallFootnote}>{t('lostCode')}&nbsp;</Text>
-            <BaseLink
-              text={t('resendCode')}
-              onPress={async () => await resendCodeInConfirmView()}
-              {...linkSmallFootnote}
-            />
-          </View>
-        )}
-
-        {/* ----------------- footnote: want to confirm ---------------- */}
-        {!atNextPage && (
-          <View style={styles.wantToConfirm}>
-            <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
-            <BaseLink
-              text={t('gotoConfirm')}
-              onPress={() => {
-                clearErrors();
-                setWantToConfirm(true);
-              }}
-              {...linkSmallFootnote}
-            />
-          </View>
-        )}
-      </View>
-
-      <Popup
-        visible={processing}
-        title={t('loading')}
-        isLoading={true}
-        colorTitleLoading={colorTitleLoading}
-        colorSpinner={colorSpinner}
-      />
-
-      <Popup
-        visible={!!error}
-        title={t('error')}
-        onClose={() => gate.notify({ error: '' })}
-        isError={true}
-        message={error}
-      />
-
-      <Popup
-        visible={doneSendCode}
-        title={t('success')}
-        onClose={() => gate.notify({ doneSendCode: false })}
-        message={t('doneSendCode')}
-      />
-
-      <Popup
-        visible={doneResetPassword}
-        title={t('success')}
-        onClose={() => gate.notify({ doneResetPassword: false })}
-        message={t('doneResetPassword')}
-      />
+      {/* ----------------- footnote: want to confirm ---------------- */}
+      {!atNextPage && (
+        <View style={styles.footnote}>
+          <Text style={txtSmallFootnote}>{t('wantToConfirm')}&nbsp;</Text>
+          <BaseLink
+            disabled={processing}
+            text={t('gotoConfirm')}
+            onPress={() => {
+              clearNotifications();
+              setWantToConfirm(true);
+            }}
+            {...linkSmallFootnote}
+          />
+        </View>
+      )}
     </React.Fragment>
   );
 };

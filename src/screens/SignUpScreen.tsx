@@ -34,7 +34,7 @@ const Comp: React.FC = () => {
 };
 
 export const SignUpScreen = withScrollKeysAware(Comp, {
-  contentMaxHeight: 400,
+  contentMaxHeight: 540,
   contentMaxWidth: 340,
   paddingTop: params.vpadding.normal,
   paddingHoriz: params.hpadding.normal,
