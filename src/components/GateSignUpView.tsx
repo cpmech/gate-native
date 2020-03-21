@@ -424,9 +424,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
           {!atNextPage && (
             <View style={styles.buttonLeft}>
               <View style={styles.leftContainer}>
-                <Text style={txtFootnote}>
-                  {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
-                </Text>
+                <Text style={txtFootnote}>{isSignIn ? t('noAccount') : t('haveAnAccount')}</Text>
                 <BaseLink
                   disabled={processing}
                   text={isSignIn ? t('signUp') : t('gotoSignIn')}
