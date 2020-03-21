@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
-import { ISignUpValues, ISignUpErrors, signUpValues2errors, t, LocalGateStore } from '@cpmech/gate';
+import { LocalGateStore, ISignUpValues, ISignUpErrors, signUpValues2errors, t } from '@cpmech/gate';
 import {
   IStyleButton,
   IStyleTypeA,
@@ -10,7 +10,6 @@ import {
   BaseLink,
   FormErrorField,
   InputTypeA,
-  Popup,
   defaultStyleTypeA,
 } from '@cpmech/rncomps';
 import { useGateObserver } from './useGateObserver';
@@ -18,35 +17,30 @@ import { IFonts } from './GateSignUpView';
 
 const styles = StyleSheet.create({
   header: {
-    flex: 1,
+    flex: 1.2,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   inputContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  footnotes: {
-    flex: 0.7,
+  inputErrorContainer: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  controlContainer: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  leftContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  footnote: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  footnoteLeft: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    flex: 1.5,
-    flexDirection: 'row',
     alignItems: 'center',
   },
   buttonLeft: {
@@ -55,8 +49,20 @@ const styles = StyleSheet.create({
   buttonRight: {
     flex: 1.2,
   },
-  wantToConfirm: {
-    flex: 1,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notifications: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationsText: {
+    textAlign: 'center',
+  },
+  footnote: {
+    flex: 0.4,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -67,11 +73,10 @@ interface ILocalGateSignUpViewProps {
   gate: LocalGateStore;
   iniEmail?: string;
 
+  marginTop?: number;
   colorIcon?: string;
   colorText?: string;
   colorLink?: string;
-  colorTitleLoading?: string;
-  colorSpinner?: string;
   colorError?: string;
   styleInput?: IStyleTypeA;
   styleButton?: IStyleButton;
@@ -88,12 +93,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
 
+  marginTop = 30,
   colorIcon = defaultStyleTypeA.mutedColor,
   colorText = '#484848',
   colorLink = '#484848',
-  colorTitleLoading = '#236cd2',
-  colorSpinner = '#236cd2',
-  colorError,
+  colorError = 'red',
   styleInput,
   styleButton,
   buttonHeight = 45,
@@ -102,6 +106,8 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   iconKind = 'line',
   fonts = {
     size: {
+      message: 18,
+      error: 18,
       header: 22,
       subHeader: 20,
       footnote: 16,
@@ -113,7 +119,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   //
 }) => {
   //
-  const { error, processing } = useGateObserver(gate, '@cpmech/gate-native/GateSignUpView');
+  const { error, processing } = useGateObserver(gate, '@cpmech/gate-native/LocalGateSignUpView');
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [isClearStorage, setIsClearStorage] = useState(false);
@@ -122,7 +128,8 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   const [values, setValues] = useState<ISignUpValues>({ email: iniEmail, password: '', code: '' });
   const [vErrors, setVerrors] = useState<ISignUpErrors>({ email: '', password: '', code: '' });
 
-  const clearErrors = () => {
+  const clearNotifications = () => {
+    !!error && gate.notify({ error: '' });
     setTouchedButtons(false);
     setVerrors({ email: '', password: '', code: '' });
   };
@@ -143,7 +150,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
     if (isClearStorage) {
       await gate.clearStorage();
       setValues({ email: '', password: '', code: '' });
-      clearErrors();
+      clearNotifications();
       setIsClearStorage(false);
       return;
     }
@@ -176,7 +183,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   const iconSize = styleInput?.fontSize || defaultStyleTypeA.fontSize;
 
   const renderPasswordIcon = (
-    <TouchableHighlight onPress={() => setShowPassword(!showPassword)} underlayColor="transparent">
+    <TouchableHighlight
+      disabled={processing}
+      onPress={() => setShowPassword(!showPassword)}
+      underlayColor="transparent"
+    >
       {showPassword ? (
         <BaseIcon name="eye-off" kind={iconKind} size={iconSize} color={colorIcon} />
       ) : (
@@ -185,6 +196,11 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
     </TouchableHighlight>
   );
 
+  const txtError = {
+    fontFamily: fonts?.familiy?.error,
+    fontSize: fonts?.size?.error,
+    color: colorError,
+  };
   const txtHeader = {
     fontFamily: fonts?.familiy?.header,
     fontSize: fonts?.size?.header,
@@ -208,134 +224,105 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
 
   return (
     <React.Fragment>
+      <View style={{ marginTop }} />
+
       {/* --------------------- header -- normal -------------------- */}
       <View style={styles.header}>
-        <Text style={txtHeader}>
-          {isClearStorage ? t('clearLocalStorage') : isSignIn ? t('signIn') : t('createAccount')}
-        </Text>
+        <Text style={txtHeader}>{isSignIn ? t('signIn') : t('createAccount')}</Text>
       </View>
 
       {/* ----------------------- input email ------------------------ */}
-      {!isClearStorage && (
-        <View style={styles.inputContainer}>
-          <InputTypeA
-            label="Email"
-            value={values.email}
-            onChangeText={v => setValue('email', v)}
-            error={vErrors.email}
-            autoCompleteType="email"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoCapitalize="none"
-            autoCorrect={false}
-            {...styleInput}
-          />
-          <FormErrorField error={vErrors.email} color={colorError} />
-        </View>
-      )}
+      <View style={styles.inputContainer}>
+        <InputTypeA
+          disabled={processing}
+          label="Email"
+          value={values.email}
+          onChangeText={v => setValue('email', v)}
+          error={vErrors.email}
+          autoCompleteType="email"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          autoCapitalize="none"
+          autoCorrect={false}
+          {...styleInput}
+        />
+      </View>
+      <View style={styles.inputErrorContainer}>
+        <FormErrorField error={vErrors.email} color={colorError} />
+      </View>
 
       {/* --------------------- input password ----------------------- */}
-      {!isClearStorage && (
-        <View style={styles.inputContainer}>
-          <InputTypeA
-            label={t('password')}
-            value={values.password}
-            suffix={renderPasswordIcon}
-            onChangeText={v => setValue('password', v)}
-            error={vErrors.password}
-            autoCorrect={false}
-            textContentType="password"
-            secureTextEntry={!showPassword}
-            {...styleInput}
-          />
-          <FormErrorField error={vErrors.password} color={colorError} />
-        </View>
-      )}
+      <View style={styles.inputContainer}>
+        <InputTypeA
+          disabled={processing}
+          label={t('password')}
+          value={values.password}
+          suffix={renderPasswordIcon}
+          onChangeText={v => setValue('password', v)}
+          error={vErrors.password}
+          autoCorrect={false}
+          textContentType="password"
+          secureTextEntry={!showPassword}
+          {...styleInput}
+        />
+      </View>
+      <View style={styles.inputErrorContainer}>
+        <FormErrorField error={vErrors.password} color={colorError} />
+      </View>
 
-      {/* ----------------------- submit button ---------------------- */}
-      <View style={styles.buttonContainer}>
-        {/* ....... footnote: go back ....... */}
-        {isClearStorage && (
+      {/* ----------------------- control ---------------------- */}
+      <View style={styles.controlContainer}>
+        {/* --------- go back and button ---------  */}
+        <View style={styles.buttonContainer}>
+          {/* ....... footnote: signIn or signUp ....... */}
           <View style={styles.buttonLeft}>
-            <View style={styles.footnoteLeft}>
-              <BaseLink
-                text={t('back')}
-                onPress={() => {
-                  clearErrors();
-                  setIsClearStorage(false);
-                }}
-                {...linkFootnote}
-              />
-            </View>
-          </View>
-        )}
-
-        {/* ....... footnote: signIn or signUp ....... */}
-        {!isClearStorage && (
-          <View style={styles.buttonLeft}>
-            <View style={styles.footnoteLeft}>
+            <View style={styles.leftContainer}>
               <Text style={txtFootnote}>
                 {isSignIn ? t('noAccount') : t('haveAnAccount')}&nbsp;
               </Text>
               <BaseLink
+                disabled={processing}
                 text={isSignIn ? t('signUp') : t('gotoSignIn')}
                 onPress={() => {
-                  clearErrors();
+                  clearNotifications();
                   setIsSignIn(!isSignIn);
                 }}
                 {...linkFootnote}
               />
             </View>
           </View>
-        )}
 
-        {/* ....... submit ....... */}
-        <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
-          <BaseButton
-            onPress={async () => await submit()}
-            borderRadius={buttonBorderRadius}
-            height={buttonHeight}
-            text={
-              isClearStorage
-                ? t('clear')
-                : isSignIn
-                ? t('enter').toUpperCase()
-                : t('signUp').toUpperCase()
-            }
-            {...styleButton}
-          />
+          {/* ....... submit ....... */}
+          <View style={{ ...styles.buttonRight, minWidth: buttonMinWidth }}>
+            <BaseButton
+              spinning={processing}
+              onPress={async () => await submit()}
+              borderRadius={buttonBorderRadius}
+              height={buttonHeight}
+              text={isSignIn ? t('enter').toUpperCase() : t('signUp').toUpperCase()}
+              {...styleButton}
+            />
+          </View>
+        </View>
+
+        {/* ....... notifications ....... */}
+        <View style={styles.notifications}>
+          {!!error && <Text style={[styles.notificationsText, txtError]}>{error}</Text>}
         </View>
       </View>
 
-      <View style={styles.footnotes}>
-        {/* ----------------- footnote: remove account ----------------- */}
-        <View style={styles.footnote}>
-          <BaseLink
-            text={t('clearLocalStorage')}
-            onPress={() => {
-              clearErrors();
-              setIsClearStorage(true);
-            }}
-            {...linkSmallFootnote}
-          />
-        </View>
+      {/* ----------------- footnote: clear local storage ---------------- */}
+      <View style={styles.footnote}>
+        <BaseLink
+          disabled={processing}
+          text={t('clearLocalStorage')}
+          onPress={() => {
+            clearNotifications();
+            setIsClearStorage(true);
+          }}
+          {...linkSmallFootnote}
+        />
       </View>
-
-      <Popup
-        visible={processing}
-        title={t('loading')}
-        isLoading={true}
-        colorTitleLoading={colorTitleLoading}
-        colorSpinner={colorSpinner}
-      />
-
-      <Popup
-        visible={!!error}
-        title={t('error')}
-        onClose={() => gate.notify({ error: '' })}
-        isError={true}
-        message={error}
-      />
     </React.Fragment>
   );
 };
