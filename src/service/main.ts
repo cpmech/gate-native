@@ -3,7 +3,7 @@ import { LocalGateStore, GateStore, IStorage, gateLocale, t } from '@cpmech/gate
 
 gateLocale.setLocale('pt');
 
-export const isLocal = true;
+export const isLocal = false;
 
 const storage: IStorage = {
   getItem: async (key: string) => await AsyncStorage.getItem(`gatenative#${key}`),
