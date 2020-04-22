@@ -1,3 +1,3 @@
 export * from './GateSignUpView';
 export * from './LocalGateSignUpView';
-export * from './useGateObserver';
+export * from './withUseGateObserver';

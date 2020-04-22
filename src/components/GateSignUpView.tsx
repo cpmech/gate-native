@@ -12,7 +12,7 @@ import {
   InputTypeA,
   defaultStyleTypeA,
 } from '@cpmech/rncomps';
-import { useGateObserver } from '../components/useGateObserver';
+import { withUseGateObserver } from './withUseGateObserver';
 
 const styles = StyleSheet.create({
   header: {
@@ -134,6 +134,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   //
 }) => {
   //
+  const useObserver = withUseGateObserver(gate);
   const {
     error,
     needToConfirm,
@@ -141,7 +142,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     processing,
     doneSendCode,
     doneResetPassword,
-  } = useGateObserver(gate, '@cpmech/gate-native/GateSignUpView');
+  } = useObserver('@cpmech/gate-native/GateSignUpView');
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [wantToConfirm, setWantToConfirm] = useState(false);
@@ -336,7 +337,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
               disabled={processing}
               label="Email"
               value={values.email}
-              onChangeText={v => setValue('email', v)}
+              onChangeText={(v) => setValue('email', v)}
               error={vErrors.email}
               autoCompleteType="email"
               keyboardType="email-address"
@@ -360,7 +361,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
               disabled={processing}
               label={t('confirmationCode')}
               value={values.code}
-              onChangeText={v => setValue('code', v)}
+              onChangeText={(v) => setValue('code', v)}
               error={vErrors.code}
               factorFontsize2width={0.55}
               keyboardType="numeric"
@@ -382,7 +383,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
               label={resetPasswordStep2 ? t('newPassword') : t('password')}
               value={values.password}
               suffix={renderPasswordIcon}
-              onChangeText={v => setValue('password', v)}
+              onChangeText={(v) => setValue('password', v)}
               error={vErrors.password}
               autoCorrect={false}
               textContentType="password"

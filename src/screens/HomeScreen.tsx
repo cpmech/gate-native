@@ -4,14 +4,15 @@ import { BaseButton, withScrollView } from '@cpmech/rncomps';
 import { View, Text } from 'react-native';
 import { gate } from '../service';
 import { colors } from '../styles';
-import { useGateObserver } from '../components/useGateObserver';
+import { withUseGateObserver } from '../components';
 
 interface IProps {
   navigation: StackNavigationProp<any, any>;
 }
 
 export const Comp: React.FC<IProps> = ({ navigation }) => {
-  const { processing } = useGateObserver(gate, '@cpmech/gate-native/HomeScreen');
+  const useObserver = withUseGateObserver(gate);
+  const { processing } = useObserver('gate-native/HomeScreen');
   return (
     <View style={{ backgroundColor: colors.orange }}>
       <Text style={{ fontSize: 20 }}>WELCOME</Text>

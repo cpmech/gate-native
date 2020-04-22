@@ -12,7 +12,7 @@ import {
   InputTypeA,
   defaultStyleTypeA,
 } from '@cpmech/rncomps';
-import { useGateObserver } from './useGateObserver';
+import { withUseGateObserver } from './withUseGateObserver';
 import { IFonts } from './GateSignUpView';
 
 const styles = StyleSheet.create({
@@ -119,7 +119,8 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
   //
 }) => {
   //
-  const { error, processing } = useGateObserver(gate, '@cpmech/gate-native/LocalGateSignUpView');
+  const useObserver = withUseGateObserver(gate);
+  const { error, processing } = useObserver('@cpmech/gate-native/LocalGateSignUpView');
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [isClearStorage, setIsClearStorage] = useState(false);
@@ -237,7 +238,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
           disabled={processing}
           label="Email"
           value={values.email}
-          onChangeText={v => setValue('email', v)}
+          onChangeText={(v) => setValue('email', v)}
           error={vErrors.email}
           autoCompleteType="email"
           keyboardType="email-address"
@@ -258,7 +259,7 @@ export const LocalGateSignUpView: React.FC<ILocalGateSignUpViewProps> = ({
           label={t('password')}
           value={values.password}
           suffix={renderPasswordIcon}
-          onChangeText={v => setValue('password', v)}
+          onChangeText={(v) => setValue('password', v)}
           error={vErrors.password}
           autoCorrect={false}
           textContentType="password"
