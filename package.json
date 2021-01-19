@@ -1,6 +1,6 @@
 {
   "name": "gate-native",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -19,7 +19,7 @@
   "types": "dist/esm/index.d.ts",
   "dependencies": {
     "@cpmech/basic": "^4.17.0",
-    "@cpmech/gate": "^3.22.0",
+    "@cpmech/gate": "^3.25.1",
     "@cpmech/rncomps": "^2.9.0",
     "@cpmech/util": "^1.20.0",
     "@react-native-community/hooks": "^2.5.1",

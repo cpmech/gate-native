@@ -91,7 +91,7 @@ export interface IFonts {
 export interface IGateSignUpViewProps {
   gate: GateStore;
   iniEmail?: string;
-
+  simplePassword?: boolean;
   marginTop?: number;
   colorIcon?: string;
   colorText?: string;
@@ -109,7 +109,7 @@ export interface IGateSignUpViewProps {
 export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   gate,
   iniEmail = '',
-
+  simplePassword = true,
   marginTop = 30,
   colorIcon = defaultStyleTypeA.mutedColor,
   colorText = '#484848',
@@ -130,6 +130,15 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
       footnote: 16,
       smallFootnote: 14,
     },
+    familiy: {
+      message: '',
+      error: '',
+      header: '',
+      subHeader: '',
+      footnote: '',
+      smallFootnote: '',
+      link: '',
+    },
   },
   //
 }) => {
@@ -144,7 +153,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     doneResetPassword,
   } = useObserver('@cpmech/gate-native/GateSignUpView');
 
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
   const [wantToConfirm, setWantToConfirm] = useState(false);
   const [resetPasswordStep1, setResetPasswordStep1] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -165,7 +174,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
   };
 
   const validate = (ignore?: { [key in keyof Partial<ISignUpErrors>]: boolean }): boolean => {
-    const res = signUpValues2errors(values, ignore);
+    const res = signUpValues2errors(values, ignore, simplePassword);
     setVerrors(res.errors);
     return !res.hasError;
   };
@@ -244,7 +253,7 @@ export const GateSignUpView: React.FC<IGateSignUpViewProps> = ({
     const newValues = { ...values, [key]: value.trim() };
     setValues(newValues);
     if (touchedButtons) {
-      const res = signUpValues2errors(newValues);
+      const res = signUpValues2errors(newValues, {}, simplePassword);
       setVerrors({ ...vErrors, [key]: (res as any)[key] });
     }
   };
